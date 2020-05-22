@@ -25,7 +25,7 @@ function fetchPrediction() {
     const width = prediction.bbox[2];
     const height = prediction.bbox[3];
 
-    const canvas = document.getElementById("canvas");
+    const canvas = document.getElementById("canvas-picture");
     canvas.width = image.width;
     canvas.height = image.height;
     const ctx = canvas.getContext("2d");
@@ -45,3 +45,30 @@ $('#recognize').click(function() {
   }
 
 });
+
+const video = document.getElementById("video")
+
+navigator.mediaDevices
+  .getUserMedia({
+    audio: false,
+    video: {
+      facingMode: "user",
+      width: 600,
+      height: 500
+    }
+  })
+  .then(stream => {
+    video.srcObject = stream
+    video.onloadedmetadata = () => {
+      video.play()
+    }
+  }).catch(function (err0r) {
+      console.log("Something went wrong!");
+    });
+
+function detectFrame() {
+  model.detect(video).then(predictions => {
+    renderOurPredictions(predictions)
+    requestAnimationFrame(detectFrame)
+  })
+}
