@@ -31,11 +31,14 @@ function renderPredictions(predictions, current) {
     pictureCanvas.height = image.height;
     videoCanvas.width = 600;
     videoCanvas.height = 500;
-
     //for image
-    ctx.drawImage(image, 0, 0, pictureCanvas.width, pictureCanvas.height);
+    if (current.id == "canvas-picture") {
+        ctx.drawImage(image, 0, 0, pictureCanvas.width, pictureCanvas.height);
+    }
     //for video
-    ctx.drawImage(video, 0, 0, videoCanvas.width, videoCanvas.height);
+    if (current.id == "canvas-video") {
+        ctx.drawImage(video, 0, 0, videoCanvas.width, videoCanvas.height);
+    }
     ctx.strokeRect(x, y, width, height);
     // Draw the label background.
     const textWidth = ctx.measureText(prediction.class).width;
@@ -57,7 +60,7 @@ function fetchPrediction() {
     console.log(prediction);
     $('.prediction').append(predictions[0].class);
 
-    renderPredcitions(predictions, canvas);
+    renderPredictions(predictions, pictureCanvas);
 
 
   });
