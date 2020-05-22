@@ -1,20 +1,19 @@
 $('.status').text("Loading model, please wait..");
 
 let cocoModel;
+let image = new Image();
+image.crossOrigin = "anonymous";
 const coco = cocoSsd.load();
 coco.then(model => {
   $('.status').text("Model loaded ready to make prediction!");
-   cocoModel = model;
+  cocoModel = model;
 });
-let image = new Image();
-image.crossOrigin = "anonymous";
-let prediction;
 
 
 
- function fetchPrediction() {
-  let src = $('#src').val();
-  image.src = src;
+
+function fetchPrediction() {
+  let prediction;
 
   cocoModel.detect(image).then(predictions => {
     prediction = predictions[0];
@@ -39,5 +38,10 @@ let prediction;
 }
 
 $('#recognize').click(function() {
-  fetchPrediction();
+  let src = $('#src').val();
+  image.src = src;
+  image.onload = function() {
+    fetchPrediction();
+  }
+
 });
