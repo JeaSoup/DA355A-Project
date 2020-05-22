@@ -7,18 +7,15 @@ coco.then(model => {
    cocoModel = model;
 });
 let image = new Image();
-console.log(src);
-//image = document.getElementById('image');
-//image.src = "https://cdn.pixabay.com/photo/2017/11/09/21/41/cat-2934720_1280.jpg"
-
+image.crossOrigin = "anonymous";
 let prediction;
 
 
 
-$('#recognize').click(function() {
+ function fetchPrediction() {
   let src = $('#src').val();
   image.src = src;
-  console.log(image.src)
+
   cocoModel.detect(image).then(predictions => {
     prediction = predictions[0];
     console.log(prediction);
@@ -39,4 +36,8 @@ $('#recognize').click(function() {
 
 
   });
+}
+
+$('#recognize').click(function() {
+  fetchPrediction();
 });
