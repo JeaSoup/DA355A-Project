@@ -30,11 +30,12 @@ function renderPredictions(predictions, current) {
     pictureCanvas.width = image.width;
     pictureCanvas.height = image.height;
     videoCanvas.width = 600;
-    videoCanvas.height = 600;
+    videoCanvas.height = 500;
+
     //for image
     ctx.drawImage(image, 0, 0, pictureCanvas.width, pictureCanvas.height);
     //for video
-    ctx.drawImage(video, 0, 0), videoCanvas.width, videoCanvas.height;
+    ctx.drawImage(video, 0, 0, videoCanvas.width, videoCanvas.height);
     ctx.strokeRect(x, y, width, height);
     // Draw the label background.
     const textWidth = ctx.measureText(prediction.class).width;
@@ -91,12 +92,18 @@ navigator.mediaDevices
     video.onloadedmetadata = () => {
       video.play()
     }
+    l
   }).catch(function(err0r) {
     console.log("Something went wrong!");
   });
 
 function detectFrame() {
   cocoModel.detect(video).then(predictions => {
+    console.log(predictions);
+    $('.prediction').empty();
+    if (predictions.length > 0) {
+      $('.prediction').append(predictions[0].class);
+    }
     renderPredictions(predictions, videoCanvas)
     requestAnimationFrame(detectFrame)
   })
