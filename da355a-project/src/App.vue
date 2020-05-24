@@ -1,26 +1,15 @@
 <template>
 <div id="app">
-  <el-row type="flex" justify="center">
-    <el-col :span="18">
       <Header />
-    </el-col>
-  </el-row>
-  <el-row type="flex" justify="center">
-    <el-col :span="18">
-      <NavBar />
-    </el-col>
-  </el-row>
 </div>
 </template>
 
 <script>
-import NavBar from './components/NavBar';
 import Header from './components/Layout/Header';
 
 export default {
   name: 'App',
   components: {
-    NavBar,
     Header
   }
 }
