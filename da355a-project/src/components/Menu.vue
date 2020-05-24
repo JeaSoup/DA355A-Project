@@ -1,7 +1,9 @@
 <template>
 <div class="md-layout md-gutter md-alignment-center-space-between">
   <md-menu md-direction="bottom-start">
-    <md-button md-menu-trigger>Home</md-button>
+    <md-button class="md-icon-button">
+         <md-icon>home</md-icon>
+       </md-button>
   </md-menu>
 
   <md-menu md-direction="bottom-end">
@@ -23,4 +25,9 @@ export default {
 
 <style lang="scss" scoped>
 @import "~vue-material/dist/theme/engine";
+@import url("https://fonts.googleapis.com/css?family=Material+Icons");
+
+.md-layout {
+  padding: 5px;
+}
 </style>

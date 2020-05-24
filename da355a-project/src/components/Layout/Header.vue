@@ -2,7 +2,6 @@
   <div class="md-layout md-alignment-center">
     <span class="md-display-3">Project Uknown</span>
   </div>
-
 </template>
 
 <script>
@@ -15,5 +14,9 @@ export default {
 div {
   padding: 20px;
   border-bottom:2px solid white;;
+}
+
+.md-display-3 >>> {
+  color: white !important;
 }
 </style>
