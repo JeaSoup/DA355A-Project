@@ -13,11 +13,46 @@
 </template>
 
 <script>
-//import $ from 'jquery';
+import * as cocoSsd from "@tensorflow-models/coco-ssd";
+import "@tensorflow/tfjs";
 export default {
+  data() {
+    return {
+    cocoSsd: null,
+    videoRef: null,
+    }
+  },
   methods: {
-    
-  }
+
+  },
+  mounted() {
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      const webCamPromise = navigator.mediaDevices
+        .getUserMedia({
+          audio: false,
+          video: {
+            facingMode: "user"
+          }
+        })
+        .then(stream => {
+          window.stream = stream;
+          this.videoRef.current.srcObject = stream;
+          return new Promise((resolve) => {
+            this.videoRef.current.onloadedmetadata = () => {
+              resolve();
+            };
+          });
+        });
+      const modelPromise = cocoSsd.load();
+      Promise.all([modelPromise, webCamPromise])
+        .then(values => {
+          this.detectFrame(this.videoRef.current, values[0]);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+  },
 }
 </script>
 
