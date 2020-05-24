@@ -1,6 +1,6 @@
 <template>
   <div class="md-layout md-alignment-center">
-    <span class="md-display-3">Project Uknown</span>
+    <span class="md-display-3">Object Recognition</span>
   </div>
 </template>
 
