@@ -1,13 +1,6 @@
 <template lang="html">
 <div id="nav">
-  <el-menu
-    :default-active="activeIndex2"
-    class="el-menu-demo"
-    mode="horizontal"
-    @select="handleSelect"
-    background-color="#545c64"
-    text-color="#fff"
-    active-text-color="#ffd04b">
+<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
     <el-menu-item index="1">Home</el-menu-item>
     <el-submenu index="2">
       <template slot="title">Placeholder</template>
