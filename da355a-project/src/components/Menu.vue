@@ -1,69 +1,26 @@
 <template>
-  <div>
-    <md-menu md-direction="bottom-start">
-      <md-button md-menu-trigger>Bottom Start</md-button>
+<div class="md-layout md-gutter md-alignment-center-space-between">
+  <md-menu md-direction="bottom-start">
+    <md-button md-menu-trigger>Home</md-button>
+  </md-menu>
 
-      <md-menu-content>
-        <md-menu-item>My Item 1</md-menu-item>
-        <md-menu-item>My Item 2</md-menu-item>
-        <md-menu-item>My Item 3</md-menu-item>
-      </md-menu-content>
-    </md-menu>
+  <md-menu md-direction="bottom-end">
+    <md-button md-menu-trigger>About us</md-button>
+  </md-menu>
 
-    <md-menu md-direction="bottom-end">
-      <md-button md-menu-trigger>Bottom End</md-button>
+  <md-menu md-direction="top-start">
+    <md-button md-menu-trigger>About the Project</md-button>
+  </md-menu>
 
-      <md-menu-content>
-        <md-menu-item>My Item 1</md-menu-item>
-        <md-menu-item>My Item 2</md-menu-item>
-        <md-menu-item>My Item 3</md-menu-item>
-      </md-menu-content>
-    </md-menu>
-
-    <md-menu md-direction="top-start">
-      <md-button md-menu-trigger>Top Start</md-button>
-
-      <md-menu-content>
-        <md-menu-item>My Item 1</md-menu-item>
-        <md-menu-item>My Item 2</md-menu-item>
-        <md-menu-item>My Item 3</md-menu-item>
-      </md-menu-content>
-    </md-menu>
-
-    <md-menu md-direction="top-end">
-      <md-button md-menu-trigger>Top End</md-button>
-
-      <md-menu-content>
-        <md-menu-item>My Item 1</md-menu-item>
-        <md-menu-item>My Item 2</md-menu-item>
-        <md-menu-item>My Item 3</md-menu-item>
-      </md-menu-content>
-    </md-menu>
-  </div>
+</div>
 </template>
 
 <script>
-  export default {
-    name: 'Directions'
-  }
+export default {
+  name: 'Directions'
+}
 </script>
 
 <style lang="scss" scoped>
-  @import "~vue-material/dist/theme/engine";
-
-  .md-layout-item {
-    height: 40px;
-
-    &:nth-child(1) {
-      background: md-get-palette-color(grey, 300);
-    }
-
-    &:nth-child(2) {
-      background: md-get-palette-color(grey, 400);
-    }
-
-    &:nth-child(3) {
-      background: md-get-palette-color(grey, 500);
-    }
-  }
+@import "~vue-material/dist/theme/engine";
 </style>
