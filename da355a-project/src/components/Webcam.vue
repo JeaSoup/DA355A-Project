@@ -11,7 +11,22 @@
   </div>
   <div class="lg-layout md-alignment-center">
     <div id="object-box">
-      <span class="md-layout md-headline md-alignment-center">Object Recognised: <br> <span id="object">{{predictionClass}}</span></span>
+      <md-card>
+
+
+
+          <md-card-header>
+            <span class="md-title">Prediction</span><br>
+            <span class="md-subhead">Score: <span id="score">{{predictionScore}}</span> </span>
+          </md-card-header>
+
+          <span class="md-layout md-headline md-alignment-center"><span id="object">{{predictionClass}}</span></span>
+        <md-card-actions>
+          <md-button>Save</md-button>
+          <md-button>Translate</md-button>
+        </md-card-actions>
+
+      </md-card>
     </div>
   </div>
 </div>
@@ -26,15 +41,18 @@ export default {
       cocoSsd: null,
       videoRef: null,
       canvasRef: null,
-      predictionClass: null,
+      predictionClass: "N/A",
+      predictionScore: "N/A",
       stream: null,
     }
   },
   methods: {
     renderPredictions(predictions) {
       predictions.forEach(prediction => {
+        console.log(prediction);
         let object = prediction.class.toUpperCase();
         this.predictionClass = object;
+        this.predictionScore = prediction.score;
       });
     },
     detectFrame(video, model) {
@@ -120,7 +138,7 @@ video[poster]{
   width:100%;
 }
 
-#object {
+#object, #score {
   color: #F29766;
   margin-left: 5px;
 }
