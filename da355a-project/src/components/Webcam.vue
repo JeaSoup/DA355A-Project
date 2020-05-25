@@ -17,7 +17,7 @@
           <span class="md-subhead">Score: <span id="score">{{predictionScore}}</span> </span>
         </md-card-header>
 
-        <span class="md-layout md-headline md-alignment-center"><span id="object">{{predictionClass}}</span></span>
+        <span class="md-layout md-display-3 md-alignment-center"><span id="object">{{predictionClass}}</span></span>
         <md-card-actions>
           <md-button>Save</md-button>
           <md-button>Translate</md-button>
