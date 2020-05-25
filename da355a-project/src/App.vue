@@ -25,6 +25,7 @@
 </template>
 
 <script>
+
 import Menu from './components/Menu';
 import Header from './components/Layout/Header';
 import Webcam from './components/Webcam';
@@ -34,6 +35,27 @@ export default {
     Header,
     Menu,
     Webcam
+  },
+  methods: {
+    identifyLanguage() {
+      console.log("Identification started")
+      this.$getLocation()
+        .then(coordinates => {
+        console.log(coordinates);
+        let url = `https://secure.geonames.org/countryCode?lat=${coordinates.lat}&lng=${coordinates.lng}&username=christina3107&type=JSON`
+        this.$http.get(url)
+          .then((result) => {
+            let language = result.data.languages.substring( 0, result.data.languages.indexOf(","))
+            console.log(language)
+          })
+        })
+        .catch(err => {
+          console.log(err)
+        });
+    }
+  },
+  mounted() {
+    this.identifyLanguage()
   }
 }
 </script>
