@@ -39,7 +39,7 @@ export default {
     },
     detectFrame(video, model) {
       model.detect(video).then(predictions => {
-        //console.log(predictions);
+        console.log(predictions);
         this.renderPredictions(predictions);
         requestAnimationFrame(() => {
           this.detectFrame(video, model);
@@ -47,7 +47,6 @@ export default {
       });
     },
     startRecognition() {
-      console.log("hello");
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         const webCamPromise = navigator.mediaDevices
           .getUserMedia({
@@ -67,7 +66,6 @@ export default {
             });
           });
         const modelPromise = cocoSsd.load();
-        this.loading = false;
         Promise.all([modelPromise, webCamPromise])
           .then(values => {
             this.detectFrame(this.videoRef, values[0]);
@@ -78,9 +76,13 @@ export default {
       }
     },
     stopRecognition() {
-      this.stream.getTracks().forEach(function(track) {
-        track.stop();
-      });
+      try {
+        this.stream.getTracks().forEach(function(track) {
+          track.stop();
+        });
+      } catch (err) {
+        console.log("Not stream available")
+      }
     }
   },
   mounted() {
@@ -114,8 +116,8 @@ button {
 }
 
 video[poster]{
-height:100%;
-width:100%;
+  height:100%;
+  width:100%;
 }
 
 #object {
