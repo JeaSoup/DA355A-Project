@@ -21,8 +21,6 @@
 
         <span class="md-layout md-display-3 md-alignment-center"><span id="object">{{predictionClass}}</span></span>
         <md-card-actions>
-          <md-button>Save</md-button>
-          <md-button>Translate</md-button>
         </md-card-actions>
       </md-card>
     </div>

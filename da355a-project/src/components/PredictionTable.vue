@@ -22,9 +22,6 @@
       <md-table-cell md-label="Prediction Score" md-sort-by="title">{{ item.score }}</md-table-cell>
     </md-table-row>
   </md-table>
-
-  <p>Selected:</p>
-  {{ selected }}
 </div>
 </template>
 
