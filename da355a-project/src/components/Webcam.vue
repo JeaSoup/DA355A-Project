@@ -121,8 +121,7 @@ export default {
   },
   mounted() {
     this.videoRef = this.$refs.video;
-    this.canvasRef = this.$refs.canvas;
-    console.log(this.videoRef);
+    //this.canvasRef = this.$refs.canvas;
   },
 }
 </script>
