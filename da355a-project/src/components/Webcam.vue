@@ -27,6 +27,9 @@
       </md-card>
     </div>
   </div>
+  <div id="table" class="lg-layout md-alignment-center">
+    <PredictionTable v-bind:objects="objects" />
+  </div>
   <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
     <span>{{statusMessage}}</span>
     <md-button class="md-primary" @click="showSnackbar = false">Close</md-button>
@@ -37,9 +40,16 @@
 <script>
 import * as cocoSsd from "@tensorflow-models/coco-ssd";
 import "@tensorflow/tfjs";
+import PredictionTable from './PredictionTable';
+import {
+  uuid
+} from 'uuidv4';
 export default {
   props: {
     language: String
+  },
+  components: {
+    PredictionTable
   },
   data() {
     return {
@@ -58,14 +68,40 @@ export default {
       frontCamera: false,
       toggleDisabled: false,
       windowWidth: null,
+      objects: [],
+      live: false,
     }
   },
   methods: {
     renderPredictions(predictions) {
       predictions.forEach(prediction => {
         console.log(prediction);
-        let object = prediction.class.toUpperCase();
-        this.predictionClass = object;
+        let newObject = {
+          id: uuid(),
+          name: prediction.class,
+          translation: "",
+          language: this.language,
+          score: prediction.score
+        }
+
+        //Check if element does exist before pushing.
+        Array.prototype.inArray = function(comparer) {
+          for (var i = 0; i < this.length; i++) {
+            if (comparer(this[i])) return true;
+          }
+          return false;
+        };
+
+        Array.prototype.pushIfNotExist = function(element, comparer) {
+          if (!this.inArray(comparer)) {
+            this.push(element);
+          }
+        };
+        this.objects.pushIfNotExist(newObject, function(e) {
+          return e.name === newObject.name && e.text === newObject.text;
+        });
+
+        this.predictionClass = prediction.class.toUpperCase();
         this.predictionScore = prediction.score;
       });
     },
@@ -74,11 +110,16 @@ export default {
         console.log(predictions);
         this.renderPredictions(predictions);
         requestAnimationFrame(() => {
-          this.detectFrame(video, model);
+          if (this.live) {
+            this.detectFrame(video, model);
+          } else {
+            return
+          }
         });
       });
     },
     startRecognition() {
+      this.live = true;
       console.log(this.language);
       let facing;
       if (this.frontCamera) {
@@ -116,6 +157,7 @@ export default {
       }
     },
     stopRecognition() {
+      this.live = false;
       this.statusMessage = "Webcam off. Stop capturing video!"
       try {
         this.stream.getTracks().forEach(function(track) {
@@ -144,7 +186,9 @@ export default {
 
 <style lang="css" scoped>
 
-
+#table {
+  margin-top: 10px;
+}
 
 button {
   margin-bottom: 10px;
