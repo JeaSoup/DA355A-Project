@@ -75,13 +75,19 @@ export default {
       });
     },
     startRecognition() {
+      let facing;
+      if (this.frontCamera) {
+        facing = "environment";
+      } else {
+        facing = "user";
+      }
       this.statusMessage = "Webcam on. Capturing video!";
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         const webCamPromise = navigator.mediaDevices
           .getUserMedia({
             audio: false,
             video: {
-              facingMode: this.frontCamera
+              facingMode: facing
             }
           })
           .then(stream => {
