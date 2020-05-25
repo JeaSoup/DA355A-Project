@@ -1,18 +1,22 @@
 <template>
 <div class="md-layout md-gutter md-alignment-center-space-around" id="menu">
-  <md-menu md-direction="bottom-start" >
+  <md-menu >
     <md-button class="md-icon-button">
          <md-icon>home</md-icon>
        </md-button>
   </md-menu>
 
-  <md-menu md-direction="bottom-end">
+  <md-menu >
     <md-button md-menu-trigger>About us</md-button>
   </md-menu>
 
-  <md-menu md-direction="top-start">
+  <md-menu >
     <md-button md-menu-trigger>About the Project</md-button>
   </md-menu>
+
+  <md-menu >
+      <md-button md-menu-trigger>Dictionary</md-button>
+    </md-menu>
 
 </div>
 </template>
