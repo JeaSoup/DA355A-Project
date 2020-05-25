@@ -2,8 +2,8 @@
 <div id="webcam">
   <div class="lg-layout md-alignment-center">
     <div id="choose-action" class="md-layout md-alignment-center">
-      <md-button class="md-raised md-primary" @click="startRecognition()">Start</md-button>
-      <md-button class="md-raised md-accent" @click="stopRecognition()">Stop</md-button>
+      <md-button class="md-raised md-primary" @click="startRecognition(); showSnackbar = true">Start</md-button>
+      <md-button class="md-raised md-accent" @click="stopRecognition(); showSnackbar = true">Stop</md-button>
     </div>
     <div id="container">
       <video ref="video" src="" class="video" autoPlay playsInline muted width="600" height="500" poster="@/assets/placeholder.png"></video>
@@ -12,23 +12,23 @@
   <div class="lg-layout md-alignment-center">
     <div id="object-box">
       <md-card>
+        <md-card-header>
+          <span class="md-title">Prediction</span><br>
+          <span class="md-subhead">Score: <span id="score">{{predictionScore}}</span> </span>
+        </md-card-header>
 
-
-
-          <md-card-header>
-            <span class="md-title">Prediction</span><br>
-            <span class="md-subhead">Score: <span id="score">{{predictionScore}}</span> </span>
-          </md-card-header>
-
-          <span class="md-layout md-headline md-alignment-center"><span id="object">{{predictionClass}}</span></span>
+        <span class="md-layout md-headline md-alignment-center"><span id="object">{{predictionClass}}</span></span>
         <md-card-actions>
           <md-button>Save</md-button>
           <md-button>Translate</md-button>
         </md-card-actions>
-
       </md-card>
     </div>
   </div>
+  <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
+    <span>{{statusMessage}}</span>
+    <md-button class="md-primary" @click="showSnackbar = false">Close</md-button>
+  </md-snackbar>
 </div>
 </template>
 
@@ -44,6 +44,11 @@ export default {
       predictionClass: "N/A",
       predictionScore: "N/A",
       stream: null,
+      showSnackbar: false,
+      position: 'center',
+      duration: 4000,
+      isInfinity: false,
+      statusMessage: ""
     }
   },
   methods: {
@@ -65,6 +70,7 @@ export default {
       });
     },
     startRecognition() {
+      this.statusMessage = "Webcam on. Capturing video!";
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         const webCamPromise = navigator.mediaDevices
           .getUserMedia({
@@ -94,6 +100,7 @@ export default {
       }
     },
     stopRecognition() {
+      this.statusMessage = "Webcam off. Stop capturing video!"
       try {
         this.stream.getTracks().forEach(function(track) {
           track.stop();
