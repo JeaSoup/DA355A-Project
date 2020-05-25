@@ -9,8 +9,10 @@
       <video ref="video" src="" class="video" autoPlay playsInline muted width="600" height="500" poster="@/assets/placeholder.png"></video>
     </div>
   </div>
-  <div id="object-box">
-    <span class="md-layout md-headline md-alignment-center">Object Recognised: <br> <span id="object">{{predictionClass}}</span></span>
+  <div class="lg-layout md-alignment-center">
+    <div id="object-box">
+      <span class="md-layout md-headline md-alignment-center">Object Recognised: <br> <span id="object">{{predictionClass}}</span></span>
+    </div>
   </div>
 </div>
 </template>
@@ -65,6 +67,7 @@ export default {
             });
           });
         const modelPromise = cocoSsd.load();
+        this.loading = false;
         Promise.all([modelPromise, webCamPromise])
           .then(values => {
             this.detectFrame(this.videoRef, values[0]);
