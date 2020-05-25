@@ -15,7 +15,8 @@
       <md-card>
         <md-card-header>
           <span class="md-title">Prediction</span><br>
-          <span class="md-subhead">Score: <span id="score">{{predictionScore}}</span> </span>
+          <span class="md-subhead">Score: <span id="score">{{predictionScore}}</span> </span><br>
+          <span class="md-subhead">Translated language: <span id="lang">{{language}}</span> </span>
         </md-card-header>
 
         <span class="md-layout md-display-3 md-alignment-center"><span id="object">{{predictionClass}}</span></span>
@@ -37,6 +38,9 @@
 import * as cocoSsd from "@tensorflow-models/coco-ssd";
 import "@tensorflow/tfjs";
 export default {
+  props: {
+    language: String
+  },
   data() {
     return {
       cocoSsd: null,
@@ -53,7 +57,7 @@ export default {
       facingMode: "user",
       frontCamera: false,
       toggleDisabled: false,
-      windowWidth: null
+      windowWidth: null,
     }
   },
   methods: {
@@ -75,6 +79,7 @@ export default {
       });
     },
     startRecognition() {
+      console.log(this.language);
       let facing;
       if (this.frontCamera) {
         facing = "environment";
@@ -122,6 +127,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.language)
     this.videoRef = this.$refs.video;
     window.addEventListener('resize', () => {
       this.windowWidth = window.innerWidth;
@@ -157,7 +163,7 @@ video[poster]{
   width:100%;
 }
 
-#object, #score {
+#object, #score, #lang {
   color: #F29766;
   margin-left: 5px;
 }
