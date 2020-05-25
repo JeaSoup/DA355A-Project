@@ -4,6 +4,8 @@
     <div id="choose-action" class="md-layout md-alignment-center">
       <md-button class="md-raised md-primary" @click="startRecognition(); showSnackbar = true">Start</md-button>
       <md-button class="md-raised md-accent" @click="stopRecognition(); showSnackbar = true">Stop</md-button>
+       <md-button class="md-raised" id="camera-facing" @click="cameraModeUser()">Camera User</md-button>
+       <md-button class="md-raised" id="camera-facing" @click="cameraModeFront()">Camera Front</md-button>
     </div>
     <div id="container">
       <video ref="video" src="" class="video" autoPlay playsInline muted width="600" height="500" poster="@/assets/placeholder.png"></video>
@@ -48,7 +50,8 @@ export default {
       position: 'center',
       duration: 4000,
       isInfinity: false,
-      statusMessage: ""
+      statusMessage: "",
+      facingMode: "user"
     }
   },
   methods: {
@@ -69,6 +72,12 @@ export default {
         });
       });
     },
+    cameraModeUser() {
+      this.facingMode = "user";
+    },
+    cameraModeFront() {
+      this.facingMode = "environment";
+    },
     startRecognition() {
       this.statusMessage = "Webcam on. Capturing video!";
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -76,7 +85,7 @@ export default {
           .getUserMedia({
             audio: false,
             video: {
-              facingMode: "user"
+              facingMode: this.facingMode
             }
           })
           .then(stream => {
@@ -123,7 +132,9 @@ export default {
 button {
   margin-bottom: 10px;
 }
-
+#camera-facing {
+  margin-left: 15px;
+}
 #webcam {
   margin-top: 20px;
 }
