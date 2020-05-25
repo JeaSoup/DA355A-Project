@@ -10,7 +10,7 @@
     </div>
   </div>
   <div id="object-box">
-  <span class="md-layout md-headline md-alignment-center">Object Recognised: <br> <span id="object">{{predictionClass}}</span></span>
+    <span class="md-layout md-headline md-alignment-center">Object Recognised: <br> <span id="object">{{predictionClass}}</span></span>
   </div>
 </div>
 </template>
@@ -25,7 +25,7 @@ export default {
       videoRef: null,
       canvasRef: null,
       predictionClass: null,
-      stream: null
+      stream: null,
     }
   },
   methods: {
