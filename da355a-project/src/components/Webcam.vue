@@ -169,6 +169,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
+@import url('https://fonts.googleapis.com/css2?family=Acme&display=swap');
 #prediction-table {
   margin-top: 10px;
 }
@@ -185,6 +186,7 @@ video {
 }
 #prediction-box span{
   text-align: center;
+  font-family: 'Acme', sans-serif;
 }
 #object, #score, #lang {
   color: #F29766;
