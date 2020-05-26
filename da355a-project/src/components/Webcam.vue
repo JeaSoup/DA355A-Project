@@ -1,30 +1,20 @@
 <template>
 <div id="webcam">
-  <div class="lg-layout md-alignment-center">
+  <div class="md-layout md-alignment-center">
     <div id="choose-action" class="md-layout md-alignment-start">
       <md-button class="md-raised md-primary" @click="startRecognition(); showSnackbar = true">Start</md-button>
       <md-button class="md-raised md-accent" @click="stopRecognition(); showSnackbar = true">Stop</md-button>
       <md-switch :disabled="toggleDisabled" class="md-primary" v-model="frontCamera" id="camera-mode">Front Camera</md-switch>
     </div>
-    <div id="container">
-      <video ref="video" src="" class="video" autoPlay playsInline muted poster="@/assets/placeholder.png"></video>
-    </div>
   </div>
-  <div class="lg-layout md-alignment-center">
-    <div id="object-box">
-      <md-card>
-        <md-card-header>
-          <span class="md-title">Prediction</span><br>
-          <span class="md-subhead">Score: <span id="score">{{predictionScore}}</span> </span><br>
-          <span class="md-subhead">Translated language: <span id="lang">{{language}}</span> </span>
-        </md-card-header>
+  <div class="md-layout md-alignment-center">
+      <video ref="video" src="" class="video" autoPlay playsInline muted poster=""></video>
+    </div>
 
-        <span class="md-layout md-display-3 md-alignment-center"><span id="object">{{predictionClass}}</span></span>
-        <md-card-actions>
-        </md-card-actions>
-      </md-card>
-    </div>
-  </div>
+    <md-content id="prediction-box">
+
+        <span class="md-layout md-display-3 md-alignment-center" id="prediction"><span id="object">{{predictionClass}}</span></span>
+  </md-content>
   <div id="table" class="lg-layout md-alignment-center">
     <PredictionTable v-bind:objects="objects" />
   </div>
@@ -200,19 +190,27 @@ button {
   margin-bottom: 20px;
 }
 
-video[poster]{
-  height:100%;
-  width:100%;
+video {
+  width: 100%;
+  max-height: auto;
+  background-color: black;
 }
 
-video {
-  width: 100% !important;
-  height: auto !important;
+#prediction-box span{
+  text-align: center;
 }
 
 #object, #score, #lang {
   color: #F29766;
   margin-left: 5px;
 }
+
+.md-content {
+    width: 100%;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
 </style>
