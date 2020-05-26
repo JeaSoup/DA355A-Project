@@ -66,8 +66,7 @@ export default {
           id: uuid(),
           name: prediction.class,
           translation: "",
-          language: this.language,
-          score: prediction.score
+          score: prediction.score.toFixed(2)
         }
         //Check if element does exist before pushing.
         Array.prototype.inArray = function(comparer) {
