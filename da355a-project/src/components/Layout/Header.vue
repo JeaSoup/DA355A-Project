@@ -1,6 +1,6 @@
 <template>
   <div class="md-layout md-alignment-center">
-    <span class="md-display-3">Object Recognition</span>
+    <span id="logo" class="md-display-4">Depicter</span>
   </div>
 </template>
 
@@ -11,12 +11,14 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Acme&display=swap');
 div {
   padding: 20px;
   border-bottom:2px solid white;;
 }
 
-.md-display-3 >>> {
+.md-display-4 >>> {
   color: white !important;
+  font-family: 'Acme', sans-serif;
 }
 </style>
