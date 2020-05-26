@@ -15,9 +15,7 @@
 
     <span class="md-layout md-display-3 md-alignment-center" id="prediction"><span id="object">{{predictionClass}}</span></span>
   </md-content>
-  <div id="table" class="lg-layout md-alignment-center">
-    <PredictionTable v-bind:objects="objects" />
-  </div>
+    <PredictionTable id="prediction-table" v-bind:objects="objects" />
   <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
     <span>{{statusMessage}}</span>
     <md-button class="md-primary" @click="showSnackbar = false">Close</md-button>
@@ -174,7 +172,7 @@ export default {
 
 <style lang="css" scoped>
 
-#table {
+#prediction-table {
   margin-top: 10px;
 }
 
