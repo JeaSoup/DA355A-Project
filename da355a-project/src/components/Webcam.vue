@@ -171,10 +171,10 @@ export default {
     this.videoRef = this.$refs.video;
     window.addEventListener('resize', () => {
       this.windowWidth = window.innerWidth;
-      if (this.windowWidth > 1279) {
+      if (this.windowWidth > 959) {
         this.toggleDisabled = true;
       }
-      if (this.windowWidth < 1279) {
+      if (this.windowWidth < 959) {
         this.toggleDisabled = false;
       }
     })
