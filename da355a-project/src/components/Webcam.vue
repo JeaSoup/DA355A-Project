@@ -175,9 +175,6 @@ export default {
 button {
   margin-bottom: 10px;
 }
-#webcam {
-  margin-top: 20px;
-}
 #prediction-box {
   margin-top: 20px;
 }
