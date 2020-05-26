@@ -70,6 +70,7 @@ export default {
 
 #mobile-button {
   margin-top: 15px;
+  display: none;
 }
 
 #mobile-button div {
