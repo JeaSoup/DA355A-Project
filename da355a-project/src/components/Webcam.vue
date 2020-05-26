@@ -7,7 +7,7 @@
       <md-switch :disabled="toggleDisabled" class="md-primary" v-model="frontCamera" id="camera-mode">Front Camera</md-switch>
     </div>
     <div id="container">
-      <video ref="video" src="" class="video" autoPlay playsInline muted width="600" height="500" poster="@/assets/placeholder.png"></video>
+      <video ref="video" src="" class="video" autoPlay playsInline muted poster="@/assets/placeholder.png"></video>
     </div>
   </div>
   <div class="lg-layout md-alignment-center">
@@ -203,6 +203,11 @@ button {
 video[poster]{
   height:100%;
   width:100%;
+}
+
+video {
+  width: 100% !important;
+  height: auto !important;
 }
 
 #object, #score, #lang {
