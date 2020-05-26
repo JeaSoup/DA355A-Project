@@ -96,7 +96,9 @@ export default {
       padding: 5px;
     }
 
-
+    #menu {
+      margin-bottom: 25px;
+    }
 
     .menu-item {
         width: 100%;
