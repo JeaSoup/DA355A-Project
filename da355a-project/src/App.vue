@@ -1,39 +1,22 @@
 <template>
 <div id="app">
-  <div class="md-layout md-gutter md-alignment-center">
-    <div class="md-layout-item md-size-15"> </div>
-    <div class="md-layout-item">
-      <Header />
-    </div>
-    <div class="md-layout-item md-size-15"></div>
-  </div>
-  <div class="md-layout md-gutter md-alignment-center">
-    <div class="md-layout-item"> </div>
-    <div class="md-layout-item">
-      <Menu />
-    </div>
-    <div class="md-layout-item"></div>
-  </div>
-  <div class="md-layout md-gutter md-alignment-center">
-    <div class="md-layout-item md-size-15"> </div>
-    <div class="md-layout-item">
-      <Webcam v-bind:language="language" />
-    </div>
-    <div class="md-layout-item md-size-15"></div>
-  </div>
+  <Header />
+  <Menu />
+  <Container />
+
 </div>
 </template>
 
 <script>
 import Menu from './components/Menu';
 import Header from './components/Layout/Header';
-import Webcam from './components/Webcam';
+import Container from './components/Container';
 export default {
   name: 'App',
   components: {
     Header,
     Menu,
-    Webcam
+    Container
   },
   props: {
 
@@ -67,6 +50,9 @@ export default {
 </script>
 
 
-<style lang="scss" scoped>
-@import "~vue-material/dist/theme/engine";
+<style lang="css" scoped>
+#app {
+  margin:10px;
+  padding:5px;
+}
 </style>
