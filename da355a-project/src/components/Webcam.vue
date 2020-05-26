@@ -1,25 +1,11 @@
 <template>
 <div id="webcam">
-  <div class="md-layout md-alignment-center">
-    <div id="choose-action" class="md-layout md-alignment-start">
-      <md-button class="md-raised md-primary" @click="startRecognition(); showSnackbar = true">Start</md-button>
-      <md-button class="md-raised md-accent" @click="stopRecognition(); showSnackbar = true">Stop</md-button>
-      <md-switch :disabled="toggleDisabled" class="md-primary" v-model="frontCamera" id="camera-mode">Front Camera</md-switch>
-    </div>
-  </div>
+  <CamControls v-on:start-camera="startRecognition()" v-on:stop-camera="stopRecognition()" v-bind:statusMessage="statusMessage"/>
   <div class="md-layout md-alignment-center">
     <video ref="video" src="" class="video" autoPlay playsInline muted poster=""></video>
   </div>
-
-  <md-content id="prediction-box">
-
-    <span class="md-layout md-display-3 md-alignment-center" id="prediction"><span id="object">{{predictionClass}}</span></span>
-  </md-content>
-    <PredictionTable id="prediction-table" v-bind:objects="objects" />
-  <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
-    <span>{{statusMessage}}</span>
-    <md-button class="md-primary" @click="showSnackbar = false">Close</md-button>
-  </md-snackbar>
+  <PredictionBox v-bind:predictionClass="predictionClass" />
+  <PredictionTable id="prediction-table" v-bind:objects="objects" />
 </div>
 </template>
 
@@ -27,6 +13,8 @@
 import * as cocoSsd from "@tensorflow-models/coco-ssd";
 import "@tensorflow/tfjs";
 import PredictionTable from './PredictionTable';
+import CamControls from './CamControls';
+import PredictionBox from './PredictionBox';
 import {
   uuid
 } from 'uuidv4';
@@ -35,25 +23,20 @@ export default {
     language: String
   },
   components: {
-    PredictionTable
+    PredictionTable,
+    PredictionBox,
+    CamControls
   },
   data() {
     return {
       cocoSsd: null,
       videoRef: null,
-      canvasRef: null,
       predictionClass: "N/A",
       predictionScore: "N/A",
       stream: null,
-      showSnackbar: false,
-      position: 'center',
-      duration: 4000,
-      isInfinity: false,
-      statusMessage: "",
-      facingMode: "user",
+      facingMode: "enivronment",
+      statusMessage: null,
       frontCamera: false,
-      toggleDisabled: false,
-      windowWidth: null,
       objects: [],
       live: false,
     }
@@ -67,7 +50,7 @@ export default {
           name: prediction.class,
           translation: "",
           language: this.language,
-          score: prediction.score
+          score: prediction.score.toFixed(2)
         }
 
         //Check if element does exist before pushing.
@@ -113,7 +96,7 @@ export default {
       } else {
         facing = "user";
       }
-      this.statusMessage = "Webcam on. Capturing video!";
+      this.statusMessage = "Camera on, capturing video!";
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         const webCamPromise = navigator.mediaDevices
           .getUserMedia({
@@ -144,7 +127,7 @@ export default {
     },
     stopRecognition() {
       this.live = false;
-      this.statusMessage = "Webcam off. Stop capturing video!"
+      this.statusMessage = "Camera off, stopped capturing video!"
       try {
         this.stream.getTracks().forEach(function(track) {
           track.stop();
@@ -152,22 +135,16 @@ export default {
       } catch (err) {
         console.log("Not stream available")
       }
+    },
+    changeCamera() {
+      console.log("hello")
+      //this.frontCamera = payload;
     }
   },
   mounted() {
-    console.log(this.language)
     this.videoRef = this.$refs.video;
-    window.addEventListener('resize', () => {
-      this.windowWidth = window.innerWidth;
-      if (this.windowWidth > 959) {
-        this.toggleDisabled = true;
-      }
-      if (this.windowWidth < 959) {
-        this.toggleDisabled = false;
-      }
-    })
   },
-}
+  }
 </script>
 
 <style lang="css" scoped>
