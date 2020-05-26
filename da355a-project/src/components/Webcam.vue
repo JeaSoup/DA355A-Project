@@ -103,6 +103,7 @@ export default {
     },
     startRecognition() {
       this.live = true;
+      this.toggleDisabled = true;
       console.log(this.language);
       let facing;
       if (this.frontCamera) {
@@ -141,6 +142,7 @@ export default {
     },
     stopRecognition() {
       this.live = false;
+      this.toggleDisabled = false;
       this.statusMessage = "Camera off. Stopped capturing video!"
       try {
         this.stream.getTracks().forEach(function(track) {
