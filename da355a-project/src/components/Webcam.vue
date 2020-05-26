@@ -8,12 +8,12 @@
     </div>
   </div>
   <div class="md-layout md-alignment-center">
-      <video ref="video" src="" class="video" autoPlay playsInline muted poster=""></video>
-    </div>
+    <video ref="video" src="" class="video" autoPlay playsInline muted poster=""></video>
+  </div>
 
-    <md-content id="prediction-box">
+  <md-content id="prediction-box">
 
-        <span class="md-layout md-display-3 md-alignment-center" id="prediction"><span id="object">{{predictionClass}}</span></span>
+    <span class="md-layout md-display-3 md-alignment-center" id="prediction"><span id="object">{{predictionClass}}</span></span>
   </md-content>
   <div id="table" class="lg-layout md-alignment-center">
     <PredictionTable v-bind:objects="objects" />
