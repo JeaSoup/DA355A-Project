@@ -182,14 +182,15 @@ export default {
     */
     stopRecognition() {
       this.live = false;
-      this.statusMessages("Camera off. Stopped capturing video!")
       this.toggleDisabled = false;
       try {
+        this.statusMessages("Camera off. Stopped capturing video!")
         this.stream.getTracks().forEach(function(track) {
           track.stop();
         });
       } catch (err) {
-        console.log("Not stream available")
+        this.statusMessages("No video. Start to begin capturing video!")
+        console.log("No stream available")
       }
     },
     deleteObject(selected) {
