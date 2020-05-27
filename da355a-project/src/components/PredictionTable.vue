@@ -10,9 +10,9 @@
       <div class="md-toolbar-section-start">{{ getAlternateLabel(count) }}</div>
 
       <div class="md-toolbar-section-end">
-        <md-button @click="deletion()" class="md-icon-button">
+        <md-button @click="deletion()" class="md-icon-button"></md-button>
+
           <md-icon>delete</md-icon>
-        </md-button>
       </div>
     </md-table-toolbar>
 
