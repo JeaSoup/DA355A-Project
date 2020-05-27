@@ -9,7 +9,7 @@
       <div class="md-toolbar-section-start">{{ getAlternateLabel(count) }}</div>
 
       <div class="md-toolbar-section-end">
-        <md-button @click="deleteObject()" class="md-icon-button">
+        <md-button @click="deletion()" class="md-icon-button">
           <md-icon>delete</md-icon>
         </md-button>
       </div>
@@ -45,12 +45,10 @@ export default {
 
       return `${count} oject${plural} selected`
     },
-    deleteObject() {
-      //Filter and delete object based on id.
-      this.selected.forEach((element) => {
-        this.objects = this.objects.filter(obj => obj.id !== element.id);
-      })
-    }
+    deletion() {
+      this.$emit("delete", this.selected);
+    },
+
   }
 }
 </script>

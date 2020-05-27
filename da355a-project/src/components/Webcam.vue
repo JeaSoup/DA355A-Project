@@ -15,7 +15,7 @@
 
     <span class="md-layout md-display-3 md-alignment-center" id="prediction"><span id="object">{{predictionClass}}</span></span>
   </md-content>
-  <PredictionTable id="prediction-table" v-bind:objects="objects" />
+  <PredictionTable id="prediction-table" v-bind:objects="objects" v-on:delete="deleteObject"/>
   <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
     <span>{{statusMessage}}</span>
     <md-button class="md-primary" @click="showSnackbar = false">Close</md-button>
@@ -150,6 +150,13 @@ export default {
       } catch (err) {
         console.log("Not stream available")
       }
+    },
+    deleteObject(selected) {
+      console.log(selected);
+      //Filter and delete object based on id.
+      selected.forEach((element) => {
+        this.objects = this.objects.filter(obj => obj.id !== element.id);
+      })
     }
   },
   mounted() {
