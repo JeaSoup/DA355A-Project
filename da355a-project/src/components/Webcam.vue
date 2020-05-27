@@ -65,7 +65,7 @@ export default {
         let newObject = {
           id: uuid(),
           name: prediction.class,
-          translation: "",
+          translation: "n/a",
           score: prediction.score.toFixed(2)
         }
         //Check if element does exist before pushing.
