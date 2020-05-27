@@ -16,21 +16,20 @@
   </div>
   <div class="md-layout md-alignment-center">
     <div id="choose-action" class="md-layout">
-         <div class="md-layout-item ">
-      <md-button class="md-raised md-primary" @click="startRecognition(); showSnackbar = true">Start</md-button>
-      <md-button class="md-raised md-accent" @click="stopRecognition(); showSnackbar = true">Stop</md-button>
-      <md-switch :disabled="toggleDisabled" class="md-primary" v-model="rearCamera" id="camera-mode">Rear Camera</md-switch>
+      <div class="md-layout-item ">
+        <md-button class="md-raised md-primary" @click="startRecognition();">Start</md-button>
+        <md-button class="md-raised md-accent" @click="stopRecognition();">Stop</md-button>
+        <md-switch :disabled="toggleDisabled" class="md-primary" v-model="rearCamera" id="camera-mode">Rear Camera</md-switch>
       </div>
     </div>
     <md-content id="prediction-box">
-
       <span class="md-layout md-display-3 md-alignment-center" id="prediction"><span id="object">{{predictionClass}}</span></span>
     </md-content>
   </div>
   <div class="md-layout md-alignment-center">
     <video ref="video" src="" class="video" autoPlay playsInline muted poster=""></video>
   </div>
-  <PredictionTable id="prediction-table" v-bind:objects="objects" v-on:delete="deleteObject" v-on:save-objects="saveObjects"/>
+  <PredictionTable id="prediction-table" v-bind:objects="objects" v-on:delete="deleteObject" v-on:save-objects="saveObjects" />
   <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
     <span>{{statusMessage}}</span>
     <md-button class="md-primary" @click="showSnackbar = false">Close</md-button>
@@ -54,7 +53,7 @@ export default {
   },
   data() {
     return {
-      cocoSsd: null,
+      cocoSsd: false,
       videoRef: null,
       canvasRef: null,
       predictionClass: "Start to begin!",
@@ -115,17 +114,22 @@ export default {
         });
       });
     },
-    startRecognition() {
-      this.live = true;
+    async startRecognition() {
       this.toggleDisabled = true;
-      console.log(this.language);
+      if (this.cocoSsd != true) {
+        await this.statusMessages("Loading object model & setting up camera!");
+      } else {
+        this.statusMessages("Camera on. Capturing video!");
+      }
+
+      //Check camera direction.
       let facing;
       if (this.rearCamera) {
         facing = "environment";
       } else {
         facing = "user";
       }
-      this.statusMessage = "Camera on. Capturing video!";
+
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         const webCamPromise = navigator.mediaDevices
           .getUserMedia({
@@ -144,20 +148,25 @@ export default {
               };
             });
           });
+
         const modelPromise = cocoSsd.load();
         Promise.all([modelPromise, webCamPromise])
           .then(values => {
+            this.live = true;
+            this.cocoSsd = true;
             this.detectFrame(this.videoRef, values[0]);
           })
           .catch(error => {
+            this.statusMessage = "Camera access denied by user. Please retry!";
+            this.showSnackbar = true;
             console.error(error);
           });
       }
     },
     stopRecognition() {
       this.live = false;
+      this.statusMessages("Camera off. Stopped capturing video!")
       this.toggleDisabled = false;
-      this.statusMessage = "Camera off. Stopped capturing video!"
       try {
         this.stream.getTracks().forEach(function(track) {
           track.stop();
@@ -176,6 +185,10 @@ export default {
     },
     saveObjects() {
       localStorage.setItem('objects', JSON.stringify(this.objects));
+    },
+    async statusMessages(message, boolean = true) {
+      this.statusMessage = message;
+      this.showSnackbar = boolean;
     }
   },
   mounted() {
