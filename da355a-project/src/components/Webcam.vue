@@ -15,7 +15,7 @@
 
     <span class="md-layout md-display-3 md-alignment-center" id="prediction"><span id="object">{{predictionClass}}</span></span>
   </md-content>
-  <PredictionTable id="prediction-table" v-bind:objects="objects" v-on:delete="deleteObject"/>
+  <PredictionTable id="prediction-table" v-bind:objects="objects" v-on:delete="deleteObject" v-on:save-objects="saveObjects"/>
   <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
     <span>{{statusMessage}}</span>
     <md-button class="md-primary" @click="showSnackbar = false">Close</md-button>
@@ -156,7 +156,11 @@ export default {
       //Filter and delete object based on id.
       selected.forEach((element) => {
         this.objects = this.objects.filter(obj => obj.id !== element.id);
+        this.saveObjects();
       })
+    },
+    saveObjects() {
+      localStorage.setItem('objects', JSON.stringify(this.objects));
     }
   },
   mounted() {
@@ -171,7 +175,8 @@ export default {
         this.toggleDisabled = false;
       }
     })
-  },
+    if (localStorage.getItem('objects')) this.objects = JSON.parse(localStorage.getItem('objects'));
+  }
 }
 </script>
 

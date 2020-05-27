@@ -3,6 +3,7 @@
   <md-table v-model="objects" md-card @md-selected="onSelect">
     <md-table-toolbar>
       <h1 class="md-title">Predictions</h1>
+      <md-button @click="$emit('save-objects')" class="md-raised md-primary">Save</md-button>
     </md-table-toolbar>
 
     <md-table-toolbar slot="md-table-alternate-header" slot-scope="{ count }">
