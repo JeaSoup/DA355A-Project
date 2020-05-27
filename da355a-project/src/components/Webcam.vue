@@ -19,7 +19,7 @@
          <div class="md-layout-item ">
       <md-button class="md-raised md-primary" @click="startRecognition(); showSnackbar = true">Start</md-button>
       <md-button class="md-raised md-accent" @click="stopRecognition(); showSnackbar = true">Stop</md-button>
-      <md-switch :disabled="toggleDisabled" class="md-primary" v-model="frontCamera" id="camera-mode">Front Camera</md-switch>
+      <md-switch :disabled="toggleDisabled" class="md-primary" v-model="rearCamera" id="camera-mode">Rear Camera</md-switch>
       </div>
     </div>
     <md-content id="prediction-box">
@@ -66,7 +66,7 @@ export default {
       isInfinity: false,
       statusMessage: "",
       facingMode: "user",
-      frontCamera: false,
+      rearCamera: false,
       toggleDisabled: false,
       windowWidth: null,
       objects: [],
@@ -120,7 +120,7 @@ export default {
       this.toggleDisabled = true;
       console.log(this.language);
       let facing;
-      if (this.frontCamera) {
+      if (this.rearCamera) {
         facing = "environment";
       } else {
         facing = "user";

@@ -3,16 +3,14 @@
   <md-table v-model="objects" md-card @md-selected="onSelect">
     <md-table-toolbar>
       <h1 class="md-title">Predictions</h1>
-      <md-button @click="$emit('save-objects')" class="md-raised md-primary">Save</md-button>
     </md-table-toolbar>
 
     <md-table-toolbar slot="md-table-alternate-header" slot-scope="{ count }">
       <div class="md-toolbar-section-start">{{ getAlternateLabel(count) }}</div>
 
       <div class="md-toolbar-section-end">
-        <md-button @click="deletion()" class="md-icon-button"></md-button>
-
-          <md-icon>delete</md-icon>
+        <md-button class="md-icon-button" @click="save()" ><md-icon >save</md-icon></md-button>
+        <md-button class="md-icon-button" @click="deletion()" >  <md-icon >delete</md-icon></md-button>
       </div>
     </md-table-toolbar>
 
@@ -48,6 +46,9 @@ export default {
     },
     deletion() {
       this.$emit("delete", this.selected);
+    },
+    save() {
+      this.$emit('save-objects');
     },
 
   }
