@@ -73,7 +73,10 @@ export default {
     }
   },
   methods: {
-    renderPredictions(predictions) {
+    /* Handles the prediction from the cocoSsd.
+      Creating a new object for each unique prediction.
+    */
+    handlePredictions(predictions) {
       predictions.forEach(prediction => {
         console.log(prediction);
         let newObject = {
@@ -82,7 +85,7 @@ export default {
           translation: "n/a",
           score: prediction.score.toFixed(2)
         }
-        //Check if element does exist before pushing.
+        //Check if element does exist before pushing, AKA a unique object.
         Array.prototype.inArray = function(comparer) {
           for (var i = 0; i < this.length; i++) {
             if (comparer(this[i])) return true;
@@ -97,14 +100,19 @@ export default {
         this.objects.pushIfNotExist(newObject, function(e) {
           return e.name === newObject.name && e.text === newObject.text;
         });
+
+        // Set displayed object name to toUpperCase.
         this.predictionClass = prediction.class.toUpperCase();
-        this.predictionScore = prediction.score;
       });
     },
+    /* Detects what the model "sees" and returns the predictions.
+      If the application is live this will continue if the stream has been
+      ended by the user, recursion is stopped.
+    */
     detectFrame(video, model) {
       model.detect(video).then(predictions => {
         console.log(predictions);
-        this.renderPredictions(predictions);
+        this.handlePredictions(predictions);
         requestAnimationFrame(() => {
           if (this.live) {
             this.detectFrame(video, model);
@@ -114,8 +122,13 @@ export default {
         });
       });
     },
+    /* Start function, makes sure that the user allows camera acess and loads
+      the object model.
+    */
     async startRecognition() {
       this.toggleDisabled = true;
+
+      //Display status message based on if the model has loaded.
       if (this.cocoSsd != true) {
         await this.statusMessages("Loading object model & setting up camera!");
       } else {
@@ -163,6 +176,10 @@ export default {
           });
       }
     },
+    /*
+    Stop the recognition, disabling the camera stream. Setting global live
+      variabel to false.
+    */
     stopRecognition() {
       this.live = false;
       this.statusMessages("Camera off. Stopped capturing video!")
@@ -186,14 +203,17 @@ export default {
     saveObjects() {
       localStorage.setItem('objects', JSON.stringify(this.objects));
     },
+    // Help function for displaying status messages.
     async statusMessages(message, boolean = true) {
       this.statusMessage = message;
       this.showSnackbar = boolean;
     }
   },
   mounted() {
-    console.log(this.language)
+    //Creates reference to the video tag.
     this.videoRef = this.$refs.video;
+
+    // Toggles option to switching camera based on screen width.
     window.addEventListener('resize', () => {
       this.windowWidth = window.innerWidth;
       if (this.windowWidth > 959) {
@@ -234,11 +254,11 @@ video {
   max-height: auto;
   background-color: black;
 }
-#prediction-box span{
+#prediction-box span {
   text-align: center;
   font-family: 'Acme', sans-serif;
 }
-#object, #score, #lang {
+#object, #score {
   color: #F29766;
   margin-left: 5px;
 }
