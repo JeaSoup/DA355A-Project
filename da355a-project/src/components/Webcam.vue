@@ -1,20 +1,35 @@
 <template>
 <div id="webcam">
   <div class="md-layout md-alignment-center">
-    <div id="choose-action" class="md-layout md-alignment-start">
+    <div id="choose-action" class="md-layout">
+      <div class="md-layout-item">
+        <md-field id="select">
+          <label for="language">Language</label>
+          <md-select v-model="language" name="language" id="language">
+            <md-option value="1">n/a</md-option>
+            <md-option value="2">n/a</md-option>
+            <md-option value="3">n/a</md-option>
+          </md-select>
+        </md-field>
+      </div>
+    </div>
+  </div>
+  <div class="md-layout md-alignment-center">
+    <div id="choose-action" class="md-layout">
+         <div class="md-layout-item ">
       <md-button class="md-raised md-primary" @click="startRecognition(); showSnackbar = true">Start</md-button>
       <md-button class="md-raised md-accent" @click="stopRecognition(); showSnackbar = true">Stop</md-button>
       <md-switch :disabled="toggleDisabled" class="md-primary" v-model="frontCamera" id="camera-mode">Front Camera</md-switch>
+      </div>
     </div>
+    <md-content id="prediction-box">
+
+      <span class="md-layout md-display-3 md-alignment-center" id="prediction"><span id="object">{{predictionClass}}</span></span>
+    </md-content>
   </div>
   <div class="md-layout md-alignment-center">
     <video ref="video" src="" class="video" autoPlay playsInline muted poster=""></video>
   </div>
-
-  <md-content id="prediction-box">
-
-    <span class="md-layout md-display-3 md-alignment-center" id="prediction"><span id="object">{{predictionClass}}</span></span>
-  </md-content>
   <PredictionTable id="prediction-table" v-bind:objects="objects" v-on:delete="deleteObject" v-on:save-objects="saveObjects"/>
   <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
     <span>{{statusMessage}}</span>
@@ -182,14 +197,24 @@ export default {
 
 <style lang="css" scoped>
 @import url('https://fonts.googleapis.com/css2?family=Acme&display=swap');
+
+#select {
+  width: 182px;
+}
+
+#select label {
+  color: white;
+}
+
 #prediction-table {
   margin-top: 10px;
 }
 button {
   margin-bottom: 10px;
+  margin-left: -1px;
 }
 #prediction-box {
-  margin-top: 20px;
+  margin-bottom: 10px;
 }
 video {
   width: 100%;

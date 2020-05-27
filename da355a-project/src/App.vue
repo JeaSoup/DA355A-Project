@@ -55,4 +55,12 @@ export default {
   margin:10px;
   padding:5px;
 }
+
+@media only screen and (min-width: 1200px) {
+  #app {
+    margin-left:250px;
+    margin-right:250px;
+    margin-bottom: 150px;
+  }
+}
 </style>
