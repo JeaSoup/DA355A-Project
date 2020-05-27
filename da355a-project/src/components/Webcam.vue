@@ -57,7 +57,7 @@ export default {
       cocoSsd: null,
       videoRef: null,
       canvasRef: null,
-      predictionClass: "N/A",
+      predictionClass: "Start to begin!",
       predictionScore: "N/A",
       stream: null,
       showSnackbar: false,
