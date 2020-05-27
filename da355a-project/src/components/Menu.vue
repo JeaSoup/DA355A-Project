@@ -1,34 +1,34 @@
 <template>
-  <div>
-      <div v-on:click="toggleMenu" id="mobile-button">
-        <div></div>
-        <div></div>
-        <div></div>
+<div>
+  <div v-on:click="toggleMenu" id="mobile-button">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  <div id="menu">
+    <div class="md-layout md-gutter md-alignment-center-space-around">
+      <div id="menu-items">
+        <md-menu class="menu-item">
+          <md-button class="md-icon-button">
+            <md-icon>home</md-icon>
+          </md-button>
+        </md-menu>
+
+        <md-menu class="menu-item">
+          <md-button md-menu-trigger>About us</md-button>
+        </md-menu>
+
+        <md-menu class="menu-item">
+          <md-button md-menu-trigger>About the Project</md-button>
+        </md-menu>
+
+        <md-menu class="menu-item">
+          <md-button md-menu-trigger>Dictionary</md-button>
+        </md-menu>
       </div>
-      <div id="menu">
-<div class="md-layout md-gutter md-alignment-center-space-around">
-    <div id="menu-items">
-      <md-menu class="menu-item">
-        <md-button class="md-icon-button">
-          <md-icon>home</md-icon>
-        </md-button>
-      </md-menu>
-
-      <md-menu class="menu-item">
-        <md-button md-menu-trigger>About us</md-button>
-      </md-menu>
-
-      <md-menu class="menu-item">
-        <md-button md-menu-trigger>About the Project</md-button>
-      </md-menu>
-
-      <md-menu class="menu-item">
-        <md-button md-menu-trigger>Dictionary</md-button>
-      </md-menu>
     </div>
   </div>
 </div>
-  </div>
 </template>
 
 <script>
@@ -69,8 +69,8 @@ export default {
 }
 
 #mobile-button {
-  margin-top: 15px;
-  display: none;
+    margin-top: 15px;
+    display: none;
 }
 
 #mobile-button div {
@@ -85,6 +85,11 @@ export default {
 }
 
 @media only screen and (max-width: 600px) {
+
+    #mobile-button {
+        display: block;
+    }
+
     #menu-items {
         display: flex;
         flex-direction: column;
@@ -93,12 +98,12 @@ export default {
     }
 
     #menu-items {
-      display: none;
-      padding: 5px;
+        display: none;
+        padding: 5px;
     }
 
     #menu {
-      margin-bottom: 25px;
+        margin-bottom: 25px;
     }
 
     .menu-item {
