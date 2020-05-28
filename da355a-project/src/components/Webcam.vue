@@ -215,7 +215,6 @@ export default {
     },
     setLanguage(event) {
       this.translationLanguage = event.target.value;
-      sessionStorage.setItem('language', this.translationLanguage);
     }
   },
   mounted() {
@@ -235,6 +234,13 @@ export default {
     if (localStorage.getItem('objects')) this.objects = JSON.parse(localStorage.getItem('objects'));
     if (sessionStorage.getItem('language')) this.translationLanguage = sessionStorage.getItem('language');
   },
+  watch: {
+    translationLanguage: {
+      handler() {
+        sessionStorage.setItem('language', this.translationLanguage);
+      }
+    }
+  }
 }
 </script>
 
