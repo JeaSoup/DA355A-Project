@@ -73,45 +73,64 @@ export default {
       windowWidth: null,
       objects: [],
       live: false,
+      predictionArray: []
     }
+    
   },
   methods: {
     /* Handles the prediction from the cocoSsd.
       Creating a new object for each unique prediction.
     */
     handlePredictions(predictions) {
-       let ref = this;
+    
        predictions.forEach(async prediction => {
-        let newObject = {
-          id: uuid(),
-          name: prediction.class,
-          translation: "",
-          score: prediction.score.toFixed(2)
-        }
-        //Check if element does exist before pushing, AKA a unique object.
-        Array.prototype.inArray = function(comparer) {
-          for (var i = 0; i < this.length; i++) {
-            if (comparer(this[i])) return true;
-          }
-          return false;
-        };
-        Array.prototype.pushIfNotExist = async function(element, comparer) {
-          if (!this.inArray(comparer)) {
+         //first prediction class is automatically added to prediction array, and first object is created
+         if (this.predictionArray.length == 0) {
+            this.predictionArray.push(prediction.class)
+            console.log("First object added")
+            let newObject = {
+              id: uuid(),
+              name: prediction.class,
+              translation: "",
+              score: prediction.score.toFixed(2)
+            }
+            
+            this.getTranslation(prediction.class, this.translationLanguage).then(translation => {
+              newObject.translation = translation
+              this.objects.push(newObject)
+              
+         })
 
-            await ref.getTranslation(element.name, ref.translationLanguage);
-            console.log(ref.translation);
-            element.translation = ref.translation;
-            this.push(element);
-          }
-        };
-        this.objects.pushIfNotExist(newObject, function(e) {
-          return e.name === newObject.name && e.text === newObject.text;
-        });
+         } else {
+           //if the next prediction is not yet an element of the prediction array, it is added and a new object is created
+           if (! this.predictionArray.includes(prediction.class)) {
+             (console.log("New object detected"))
+             this.predictionArray.push(prediction.class)
+             let newObject = {
+                id: uuid(),
+                name: prediction.class,
+                translation: "",
+                score: prediction.score.toFixed(2)
+              }
+            
+            this.getTranslation(prediction.class, this.translationLanguage).then(translation => {
+              newObject.translation = translation
+              this.objects.push(newObject)
+               
+         })
+
+           } else {
+             console.log("Object already in array", prediction.class)
+           }
+         }
 
         // Set displayed object name to toUpperCase.
         this.predictionClass = prediction.class.toUpperCase();
+    
       });
+      
     },
+
     /* Detects what the model "sees" and returns the predictions.
       If the application is live this will continue if the stream has been
       ended by the user, recursion is stopped.
@@ -224,7 +243,7 @@ export default {
       let langpair = "en|"+language.slice(0, language.indexOf("-"));
       console.log(langpair);
       const resp = await axios.get(`https://api.mymemory.translated.net/get?q=${object}&langpair=${langpair}`);
-      this.translation = resp.data.responseData.translatedText
+      return resp.data.responseData.translatedText
 
     }
   },
