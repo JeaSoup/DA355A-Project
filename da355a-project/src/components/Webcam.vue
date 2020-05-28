@@ -170,8 +170,7 @@ export default {
             this.detectFrame(this.videoRef, values[0]);
           })
           .catch(error => {
-            this.statusMessage = "Camera access denied by user. Please retry!";
-            this.showSnackbar = true;
+            this.statusMessages("Camera access denied by user. Please retry!")
             console.error(error);
           });
       }
@@ -198,10 +197,14 @@ export default {
       //Filter and delete object based on id.
       selected.forEach((element) => {
         this.objects = this.objects.filter(obj => obj.id !== element.id);
-        this.saveObjects();
+        this.saveObjects(true);
       })
+      this.statusMessages("Predictions deleted!")
     },
-    saveObjects() {
+    saveObjects(isDelete) {
+      if (!isDelete) {
+      this.statusMessages("Predictions saved!")
+      }
       localStorage.setItem('objects', JSON.stringify(this.objects));
     },
     // Help function for displaying status messages.
