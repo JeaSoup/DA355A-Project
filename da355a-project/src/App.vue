@@ -2,7 +2,7 @@
 <div id="app">
   <Header />
   <Menu />
-  <Container />
+  <Container v-bind:language="language"/>
 
 </div>
 </template>

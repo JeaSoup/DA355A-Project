@@ -5,8 +5,8 @@
       <div class="md-layout-item">
         <md-field id="select">
           <label for="language">Language</label>
-          <md-select v-model="language" name="language" id="language">
-            <md-option value="1">n/a</md-option>
+          <md-select v-model="languages" name="language" id="language">
+            <md-option value="translationLanguage">{{translationLanguage}} (location)</md-option>
             <md-option value="2">n/a</md-option>
             <md-option value="3">n/a</md-option>
           </md-select>
@@ -46,7 +46,7 @@ import {
 } from 'uuidv4';
 export default {
   props: {
-    language: String
+    translationLanguage: String
   },
   components: {
     PredictionTable
@@ -59,6 +59,7 @@ export default {
       predictionClass: "Start to begin!",
       predictionScore: "N/A",
       stream: null,
+      languages: [],
       showSnackbar: false,
       position: 'center',
       duration: 4000,

@@ -1,5 +1,5 @@
 <template lang="html">
-  <Webcam/>
+  <Webcam v-bind:translationLanguage="language"/>
 </template>
 
 <script>
@@ -8,6 +8,9 @@ export default {
   components: {
     Webcam,
   },
+  props: {
+    language: String
+  }
 }
 </script>
 
