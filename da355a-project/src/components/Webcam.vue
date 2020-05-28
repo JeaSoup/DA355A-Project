@@ -79,37 +79,32 @@ export default {
     /* Handles the prediction from the cocoSsd.
       Creating a new object for each unique prediction.
     */
-    handlePredictions(predictions) {
-       let ref = this;
-       predictions.forEach(async prediction => {
-        let newObject = {
+    async handlePredictions(predictions) {
+      let newObject = {
+        id: "",
+        name: "",
+        translation: "",
+        score: ""
+      }
+      for (let i = 0; i < predictions.length; i++) {
+        newObject = {
           id: uuid(),
-          name: prediction.class,
+          name: predictions[i].class,
           translation: "",
-          score: prediction.score.toFixed(2)
+          score: predictions[i].score.toFixed(2)
         }
         //Check if element does exist before pushing, AKA a unique object.
-        Array.prototype.inArray = function(comparer) {
-          for (var i = 0; i < this.length; i++) {
-            if (comparer(this[i])) return true;
-          }
-          return false;
-        };
-        Array.prototype.pushIfNotExist = async function(element, comparer) {
-          if (!this.inArray(comparer)) {
+        if (!this.objects.find(o => o.name === newObject.name)) {
+          this.getTranslation(newObject.name, this.translationLanguage).then(data => {
+            newObject.translation = data;
+          })
+          this.objects.push(newObject)
+        }
 
-            ref.getTranslation(element.name, ref.translationLanguage);
-            element.translation = ref.translation;
-            this.push(element);
-          }
-        };
-        this.objects.pushIfNotExist(newObject, function(e) {
-          return e.name === newObject.name && e.text === newObject.text;
-        });
 
         // Set displayed object name to toUpperCase.
-        this.predictionClass = prediction.class.toUpperCase();
-      });
+        this.predictionClass = predictions[i].class.toUpperCase();
+      }
     },
     /* Detects what the model "sees" and returns the predictions.
       If the application is live this will continue if the stream has been
@@ -219,16 +214,13 @@ export default {
     setLanguage(event) {
       this.translationLanguage = event.target.value;
     },
-    // Axios get to API to get translation.
-    async getTranslation(object, language) {
-      let langpair = "en|"+language.slice(0, language.indexOf("-"));
-      try {
-        console.log(langpair);
-        const response = await axios.get(`https://api.mymemory.translated.net/get?q=${object}&langpair=${langpair}`);
-        this.translation = response.data.responseData.translatedText
-      } catch (e) {
-        this.translation = "n/a";
-      } 
+        // Axios get to API to get translation.
+      getTranslation(object, language) {
+      let langpair = "en|" + language.slice(0, language.indexOf("-"));
+      let url = `https://api.mymemory.translated.net/get?q=${object}&langpair=${langpair}`;
+      return axios.get(url).then(response => {
+        return response.data.responseData.translatedText;
+      })
     }
   },
   mounted() {
