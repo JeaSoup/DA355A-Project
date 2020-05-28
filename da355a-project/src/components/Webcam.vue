@@ -44,6 +44,7 @@ import PredictionTable from './PredictionTable';
 import {
   uuid
 } from 'uuidv4';
+import axios from 'axios';
 export default {
   props: {
     locationLanguage: String
@@ -60,6 +61,7 @@ export default {
       predictionScore: "N/A",
       stream: null,
       translationLanguage: null,
+      translation: null,
       showSnackbar: false,
       position: 'center',
       duration: 4000,
@@ -78,12 +80,12 @@ export default {
       Creating a new object for each unique prediction.
     */
     handlePredictions(predictions) {
-      predictions.forEach(prediction => {
-        console.log(prediction);
+       let ref = this;
+       predictions.forEach(async prediction => {
         let newObject = {
           id: uuid(),
           name: prediction.class,
-          translation: "n/a",
+          translation: "",
           score: prediction.score.toFixed(2)
         }
         //Check if element does exist before pushing, AKA a unique object.
@@ -93,8 +95,12 @@ export default {
           }
           return false;
         };
-        Array.prototype.pushIfNotExist = function(element, comparer) {
+        Array.prototype.pushIfNotExist = async function(element, comparer) {
           if (!this.inArray(comparer)) {
+
+            await ref.getTranslation(element.name, ref.translationLanguage);
+            console.log(ref.translation);
+            element.translation = ref.translation;
             this.push(element);
           }
         };
@@ -112,7 +118,6 @@ export default {
     */
     detectFrame(video, model) {
       model.detect(video).then(predictions => {
-        console.log(predictions);
         this.handlePredictions(predictions);
         requestAnimationFrame(() => {
           if (this.live) {
@@ -194,7 +199,6 @@ export default {
       }
     },
     deleteObject(selected) {
-      console.log(selected);
       //Filter and delete object based on id.
       selected.forEach((element) => {
         this.objects = this.objects.filter(obj => obj.id !== element.id);
@@ -215,6 +219,13 @@ export default {
     },
     setLanguage(event) {
       this.translationLanguage = event.target.value;
+    },
+    async getTranslation(object, language) {
+      let langpair = "en|"+language.slice(0, language.indexOf("-"));
+      console.log(langpair);
+      const resp = await axios.get(`https://api.mymemory.translated.net/get?q=${object}&langpair=${langpair}`);
+      this.translation = resp.data.responseData.translatedText
+
     }
   },
   mounted() {
