@@ -5,8 +5,8 @@
       <div class="md-layout-item">
         <md-field id="select">
           <label for="language">Language</label>
-          <md-select v-model="languages" name="language" id="language">
-            <md-option value="locationLanguage">{{locationLanguage}} (location)</md-option>
+          <md-select v-model="translationLanguage" name="language" id="language" @change="setLanguage($event)">
+            <md-option :value="locationLanguage">{{locationLanguage}} (location)</md-option>
             <md-option value="2">n/a</md-option>
             <md-option value="3">n/a</md-option>
           </md-select>
@@ -59,7 +59,7 @@ export default {
       predictionClass: "Start to begin!",
       predictionScore: "N/A",
       stream: null,
-      languages: [],
+      translationLanguage: null,
       showSnackbar: false,
       position: 'center',
       duration: 4000,
@@ -204,14 +204,18 @@ export default {
     },
     saveObjects(isDelete) {
       if (!isDelete) {
-      this.statusMessages("Predictions saved!")
+        this.statusMessages("Predictions saved!")
       }
       localStorage.setItem('objects', JSON.stringify(this.objects));
     },
-    // Help function for displaying status messages.
+    //Help function for displaying status messages.
     async statusMessages(message, boolean = true) {
       this.statusMessage = message;
       this.showSnackbar = boolean;
+    },
+    setLanguage(event) {
+      this.translationLanguage = event.target.value;
+      sessionStorage.setItem('language', this.translationLanguage);
     }
   },
   mounted() {
@@ -229,7 +233,8 @@ export default {
       }
     })
     if (localStorage.getItem('objects')) this.objects = JSON.parse(localStorage.getItem('objects'));
-  }
+    if (sessionStorage.getItem('language')) this.translationLanguage = sessionStorage.getItem('language');
+  },
 }
 </script>
 
