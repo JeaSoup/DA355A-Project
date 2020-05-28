@@ -220,6 +220,7 @@ export default {
     setLanguage(event) {
       this.translationLanguage = event.target.value;
     },
+    // Axios get to API to get translation.
     async getTranslation(object, language) {
       let langpair = "en|"+language.slice(0, language.indexOf("-"));
       console.log(langpair);
