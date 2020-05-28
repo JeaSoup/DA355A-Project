@@ -1,5 +1,5 @@
 <template lang="html">
-  <Webcam v-bind:translationLanguage="language"/>
+  <Webcam v-bind:locationLanguage="language"/>
 </template>
 
 <script>
