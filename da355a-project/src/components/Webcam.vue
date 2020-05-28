@@ -98,8 +98,7 @@ export default {
         Array.prototype.pushIfNotExist = async function(element, comparer) {
           if (!this.inArray(comparer)) {
 
-            await ref.getTranslation(element.name, ref.translationLanguage);
-            console.log(ref.translation);
+            ref.getTranslation(element.name, ref.translationLanguage);
             element.translation = ref.translation;
             this.push(element);
           }
@@ -223,10 +222,13 @@ export default {
     // Axios get to API to get translation.
     async getTranslation(object, language) {
       let langpair = "en|"+language.slice(0, language.indexOf("-"));
-      console.log(langpair);
-      const resp = await axios.get(`https://api.mymemory.translated.net/get?q=${object}&langpair=${langpair}`);
-      this.translation = resp.data.responseData.translatedText
-
+      try {
+        console.log(langpair);
+        const response = await axios.get(`https://api.mymemory.translated.net/get?q=${object}&langpair=${langpair}`);
+        this.translation = response.data.responseData.translatedText
+      } catch (e) {
+        this.translation = "n/a";
+      } 
     }
   },
   mounted() {
