@@ -201,7 +201,7 @@ export default {
       this.statusMessage = message;
       this.showSnackbar = boolean;
     },
-    setLanguage(event) {
+      setLanguage(event) {
       this.translationLanguage = event.target.value;
     },
         // Axios get to API to get translation.
@@ -251,7 +251,7 @@ export default {
       },
       // setter
       set: function (newValue) {
-        this.translationLanguage = newValue;
+        return newValue;
       }
     }
 },
