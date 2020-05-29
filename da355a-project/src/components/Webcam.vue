@@ -216,12 +216,13 @@ export default {
     },
         // Axios get to API to get translation.
       getTranslation(object, language) {
-
+        console.log("Fetching first")
       let langpair = "en|" + language.slice(0, language.indexOf("-"));
-      let url = `https://api.mymemory.translated.net/get?q=${object}&langpair=${langpair}`;
+      let url = `https://api.mymemory.translated.net/get?q=${encodeURI(object)}&langpair=${langpair}`;
       return axios.get(url).then(response => {
         // returning the data here allows the caller to get it through another .then(...)
-        console.log("Fetching")
+        console.log("Fetching second")
+        console.log(response);
         return response.data.responseData.translatedText;
       })
     }
