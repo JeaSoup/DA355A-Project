@@ -80,14 +80,8 @@ export default {
       Creating a new object for each unique prediction.
     */
     async handlePredictions(predictions) {
-      let newObject = {
-        id: "",
-        name: "",
-        translation: "",
-        score: ""
-      }
       for (let i = 0; i < predictions.length; i++) {
-        newObject = {
+        let newObject = {
           id: uuid(),
           name: predictions[i].class,
           translation: "",
@@ -100,8 +94,6 @@ export default {
           })
           this.objects.push(newObject)
         }
-
-
         // Set displayed object name to toUpperCase.
         this.predictionClass = predictions[i].class.toUpperCase();
       }
