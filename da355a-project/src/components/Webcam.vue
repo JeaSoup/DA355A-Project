@@ -46,9 +46,7 @@ import {
 } from 'uuidv4';
 import axios from 'axios';
 export default {
-  props: {
-    locationLanguage: String
-  },
+  props: ['locationLanguage'],
   components: {
     PredictionTable
   },
@@ -60,7 +58,6 @@ export default {
       predictionClass: "Start to begin!",
       predictionScore: "N/A",
       stream: null,
-      translationLanguage: null,
       translation: null,
       showSnackbar: false,
       position: 'center',
@@ -223,6 +220,7 @@ export default {
   mounted() {
     //Creates reference to the video tag.
     this.videoRef = this.$refs.video;
+    this.translationLanguage = this.languageComputed;
 
     // Toggles option to switching camera based on screen width.
     window.addEventListener('resize', () => {
@@ -242,8 +240,21 @@ export default {
       handler() {
         sessionStorage.setItem('language', this.translationLanguage);
       }
+    },
+    deep: true
+  },
+  computed: {
+    translationLanguage: {
+      // getter
+      get: function () {
+        return this.locationLanguage;
+      },
+      // setter
+      set: function (newValue) {
+        this.translationLanguage = newValue;
+      }
     }
-  }
+},
 }
 </script>
 
