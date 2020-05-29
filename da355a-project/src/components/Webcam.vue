@@ -19,7 +19,7 @@
       <div class="md-layout-item ">
         <md-button class="md-raised md-primary" @click="startRecognition();">Start</md-button>
         <md-button class="md-raised md-accent" @click="stopRecognition();">Stop</md-button>
-        <md-switch :disabled="toggleDisabled" class="md-primary" v-model="rearCamera" id="camera-mode">Rear Camera</md-switch>
+        <md-switch v-if="!isHidden" :disabled="toggleDisabled" class="md-primary" v-model="rearCamera" id="camera-mode">Rear Camera</md-switch>
       </div>
     </div>
     <md-content id="prediction-box">
@@ -73,6 +73,7 @@ export default {
       windowWidth: null,
       objects: [],
       live: false,
+      isHidden: false,
     }
   },
   methods: {
@@ -227,10 +228,10 @@ export default {
     window.addEventListener('resize', () => {
       this.windowWidth = window.innerWidth;
       if (this.windowWidth > 959) {
-        this.toggleDisabled = true;
+        this.isHidden = true;
       }
       if (this.windowWidth < 959) {
-        this.toggleDisabled = false;
+        this.isHidden = false;
       }
     })
     if (localStorage.getItem('objects')) this.objects = JSON.parse(localStorage.getItem('objects'));
