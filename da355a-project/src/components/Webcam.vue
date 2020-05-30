@@ -84,7 +84,8 @@ export default {
           id: uuid(),
           name: predictions[i].class,
           translation: "",
-          score: predictions[i].score.toFixed(2)
+          score: predictions[i].score.toFixed(2),
+          laguage: this.translationLanguage
         }
         //Check if element does exist before pushing, AKA a unique object.
         if (!this.objects.find(o => o.name === newObject.name)) {

@@ -3,7 +3,6 @@
   <Header />
   <Menu />
   <Container v-bind:language="language"/>
-
 </div>
 </template>
 
