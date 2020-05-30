@@ -5,10 +5,10 @@
       <div class="md-layout-item">
         <md-field id="select">
           <label for="language">Language</label>
-          <md-select v-model="translationLanguage" name="language" id="language" @change="setLanguage($event)">
+          <md-select v-model="translationLanguage" name="language" id="language" v-on:input="setLanguage">
             <md-option :value="locationLanguage">{{locationLanguage}} (location)</md-option>
-            <md-option value="2">n/a</md-option>
-            <md-option value="3">n/a</md-option>
+            <md-option value="de">de</md-option>
+            <md-option value="it">it</md-option>
           </md-select>
         </md-field>
       </div>
@@ -55,6 +55,7 @@ export default {
       cocoSsd: false,
       videoRef: null,
       canvasRef: null,
+      translationLanguage: null,
       predictionClass: "Start to begin!",
       predictionScore: "N/A",
       stream: null,
@@ -201,13 +202,14 @@ export default {
       this.statusMessage = message;
       this.showSnackbar = boolean;
     },
-      setLanguage(event) {
-      this.translationLanguage = event.target.value;
+      setLanguage(value) {
+      console.log("select " + value)
+      this.translationLanguage = value;
     },
         // Axios get to API to get translation.
       getTranslation(object, language) {
         console.log("Fetching first")
-      let langpair = "en|" + language.slice(0, language.indexOf("-"));
+      let langpair = "en|" + language;
       let url = `https://api.mymemory.translated.net/get?q=${encodeURI(object)}&langpair=${langpair}`;
       return axios.get(url).then(response => {
         // returning the data here allows the caller to get it through another .then(...)
@@ -220,7 +222,7 @@ export default {
   mounted() {
     //Creates reference to the video tag.
     this.videoRef = this.$refs.video;
-    this.translationLanguage = this.languageComputed;
+    this.translationLanguage = this.locationLanguage;
 
     // Toggles option to switching camera based on screen width.
     window.addEventListener('resize', () => {
@@ -243,18 +245,6 @@ export default {
     },
     deep: true
   },
-  computed: {
-    translationLanguage: {
-      // getter
-      get: function () {
-        return this.locationLanguage;
-      },
-      // setter
-      set: function (newValue) {
-        return newValue;
-      }
-    }
-},
 }
 </script>
 

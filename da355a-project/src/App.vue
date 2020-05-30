@@ -34,7 +34,8 @@ export default {
           let url = `https://secure.geonames.org/countryCode?lat=${coordinates.lat}&lng=${coordinates.lng}&username=christina3107&type=JSON`
           this.$http.get(url)
             .then((result) => {
-              this.language = result.data.languages.substring(0, result.data.languages.indexOf(","))
+              this.language = result.data.languages.substring(0, result.data.languages.indexOf(","));
+              this.language = this.language.slice(0, this.language.indexOf("-"));
             })
         })
         .catch(err => {
