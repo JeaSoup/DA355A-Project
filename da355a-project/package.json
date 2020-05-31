@@ -16,6 +16,7 @@
     "uuidv4": "^6.0.9",
     "vue": "^2.6.11",
     "vue-browser-geolocation": "^1.8.0",
+    "vue-flag-icon": "^1.0.6",
     "vue-material": "^1.0.0-beta-13"
   },
   "devDependencies": {

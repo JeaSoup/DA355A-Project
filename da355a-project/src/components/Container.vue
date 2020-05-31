@@ -1,5 +1,5 @@
 <template lang="html">
-  <Webcam v-bind:locationLanguage="language"/>
+  <Webcam v-bind:languages="languages"/>
 </template>
 
 <script>
@@ -9,7 +9,9 @@ export default {
     Webcam,
   },
   props: {
-    language: String
+    language: String,
+    countryCode: String,
+    languages: Array
   }
 }
 </script>

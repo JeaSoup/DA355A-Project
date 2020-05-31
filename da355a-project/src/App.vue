@@ -2,7 +2,7 @@
 <div id="app">
   <Header />
   <Menu />
-  <Container v-bind:language="language"/>
+  <Container v-bind:languages="languages"/>
 </div>
 </template>
 
@@ -22,7 +22,18 @@ export default {
   },
   data() {
     return {
-      language: null,
+      languages: [
+                    {name: "German", countryCode: "de", languageCode: "de"},
+                    {name: "Italian", countryCode: "it", languageCode: "it"},
+                    {name: "Russian", countryCode: "ru", languageCode: "ru"},
+                    {name: "French", countryCode: "fr", languageCode: "fr"},
+                    {name: "Turkish", countryCode: "tr", languageCode: "tr"},
+                    {name: "Spanish", countryCode: "es", languageCode: "es"},
+                    {name: "Ukrainian", countryCode: "ua", languageCode: "uk"},
+                    {name: "Polish", countryCode: "pl", languageCode: "pl"},
+                    {name: "Dutch", countryCode: "nl", languageCode: "nl"},
+                    {name: "Romanian", countryCode: "ro", languageCode: "ro"},
+                  ],
     }
   },
   methods: {
@@ -33,15 +44,23 @@ export default {
           let url = `https://secure.geonames.org/countryCode?lat=${coordinates.lat}&lng=${coordinates.lng}&username=christina3107&type=JSON`
           this.$http.get(url)
             .then((result) => {
-              this.language = result.data.languages.substring(0, result.data.languages.indexOf(","));
-              this.language = this.language.slice(0, this.language.indexOf("-"));
+              console.log(result.data)
+              //this.language = result.data.languages.substring(0, result.data.languages.indexOf(","));
+              //this.countryCode = result.data.countryCode
+              //this.language = this.language.slice(0, this.language.indexOf("-"));
+              let language = result.data.languages.substring(0, result.data.languages.indexOf(","));
+              let languageCode = language.slice(0, language.indexOf("-"));
+              let countryCode = result.data.countryCode
+              let newLanguageObject = {name: "current location", countryCode: countryCode, languageCode: languageCode}
+              console.log(newLanguageObject)
+              this.languages.splice(0, 0, newLanguageObject)
             })
         })
         .catch(err => {
           console.log(err)
         });
-
-    }
+    },
+  
   },
   mounted() {
     this.identifyLanguage()

@@ -5,12 +5,10 @@
       <div class="md-layout-item">
         <md-field id="select">
           <label for="language">Language</label>
-          <md-select v-model="translationLanguage" name="language" id="language" v-on:input="setLanguage">
-            <md-option :value="locationLanguage">{{locationLanguage}} (location)</md-option>
-            <md-option value="de">de</md-option>
-            <md-option value="it">it</md-option>
+          <md-select v-model="translationLanguage" id="language" name="language" v-on:input="setCountryCode">
+            <md-option v-for="(language, idx) in languages" v-bind:key="idx" v-bind:value="language.languageCode">{{language.name}} ({{language.languageCode}})</md-option>
           </md-select>
-        </md-field>
+       </md-field>
       </div>
     </div>
   </div>
@@ -46,7 +44,7 @@ import {
 } from 'uuidv4';
 import axios from 'axios';
 export default {
-  props: ['locationLanguage'],
+  props: ['languages'],
   components: {
     PredictionTable
   },
@@ -55,6 +53,7 @@ export default {
       cocoSsd: false,
       videoRef: null,
       canvasRef: null,
+      countryCode: null,
       translationLanguage: null,
       predictionClass: "Start to begin!",
       predictionScore: "N/A",
@@ -72,6 +71,7 @@ export default {
       objects: [],
       live: false,
       isHidden: false,
+      selectedValues: {},
     }
   },
   methods: {
@@ -85,7 +85,8 @@ export default {
           name: predictions[i].class,
           translation: "",
           score: predictions[i].score.toFixed(2),
-          language: this.translationLanguage
+          language: this.translationLanguage,
+          countryCode: this.countryCode
         }
         //Check if element does exist before pushing, AKA a unique object.
         if (!this.objects.find(o => o.name === newObject.name)) {
@@ -203,9 +204,12 @@ export default {
       this.statusMessage = message;
       this.showSnackbar = boolean;
     },
-      setLanguage(value) {
-      console.log("select " + value)
-      this.translationLanguage = value;
+ 
+    //Retrieves country code for selected language from languages array, in order to be able to display flags
+      setCountryCode(value) {
+        console.log(value)
+        let selectedCountry = this.languages.find(o => o.languageCode === value );
+        this.countryCode = selectedCountry.countryCode;
     },
         // Axios get to API to get translation.
       getTranslation(object, language) {
@@ -224,6 +228,7 @@ export default {
     //Creates reference to the video tag.
     this.videoRef = this.$refs.video;
     this.translationLanguage = this.locationLanguage;
+    
 
     // Toggles option to switching camera based on screen width.
     window.addEventListener('resize', () => {
@@ -237,11 +242,17 @@ export default {
     })
     if (localStorage.getItem('objects')) this.objects = JSON.parse(localStorage.getItem('objects'));
     if (sessionStorage.getItem('language')) this.translationLanguage = sessionStorage.getItem('language');
+    if (sessionStorage.getItem('countryCode')) this.countryCode = sessionStorage.getItem('countryCode')
   },
   watch: {
     translationLanguage: {
       handler() {
         sessionStorage.setItem('language', this.translationLanguage);
+      }
+    },
+    countryCode: {
+      handler() {
+        sessionStorage.setItem('countryCode', this.countryCode);
       }
     },
     deep: true
@@ -290,4 +301,6 @@ video {
     justify-content: center;
     align-items: center;
   }
+
+
 </style>
