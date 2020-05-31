@@ -15,8 +15,8 @@
     </md-table-toolbar>
 
     <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="multiple" md-auto-select>
-      <md-table-cell md-label="Name" md-sort-by="name">{{ item.name }}</md-table-cell>
-      <md-table-cell md-label="Translation" md-sort-by="translation">{{ item.translation }} <flag id="flag" :iso="item.countryCode" /></md-table-cell>
+      <md-table-cell id="name" md-label="Name" md-sort-by="name">{{ item.name }}</md-table-cell>
+      <md-table-cell id="translation" md-label="translation" md-sort-by="translation">{{ item.translation }} <flag id="flag" :iso="item.countryCode" /></md-table-cell>
       <md-table-cell md-label="Score" md-sort-by="score">{{ item.score }}</md-table-cell>
     </md-table-row>
   </md-table>
@@ -62,5 +62,18 @@ export default {
 
 #flag {
   margin-right: 10px;
+}
+@media only screen and (max-width: 600px) {
+  #flag {
+    margin-right: auto;
+  }
+
+  #name>>> div{
+    padding-right: 0;
+  }
+
+  #translation>>> div{
+    padding-right: 0;
+  }
 }
 </style>
