@@ -208,7 +208,6 @@ export default {
 
     //Retrieves country code for selected language from languages array, in order to be able to display flags
       setCountryCode(value) {
-        console.log(value)
         let selectedCountry = this.populatedLanguages.find(o => o.languageCode === value );
         try {
             this.countryCode = selectedCountry.countryCode;
@@ -219,13 +218,10 @@ export default {
     },
         // Axios get to API to get translation.
       getTranslation(object, language) {
-        console.log("Fetching first")
       let langpair = "en|" + language;
       let url = `https://api.mymemory.translated.net/get?q=${encodeURI(object)}&langpair=${langpair}`;
       return axios.get(url).then(response => {
         // returning the data here allows the caller to get it through another .then(...)
-        console.log("Fetching second")
-        console.log(response);
         return response.data.responseData.translatedText;
       })
     },
@@ -242,8 +238,6 @@ export default {
     //Creates reference to the video tag.
     this.displaySwitch(window.innerWidth);
     this.videoRef = this.$refs.video;
-    console.log(this.populatedLanguages);
-
 
     // Toggles option to switching camera based on screen width.
     window.addEventListener('resize', () => {
