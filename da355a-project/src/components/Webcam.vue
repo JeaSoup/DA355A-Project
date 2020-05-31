@@ -25,7 +25,7 @@
     </md-content>
   </div>
   <div class="md-layout md-alignment-center">
-    <video ref="video" src="" class="video" autoPlay playsInline muted poster=""></video>
+    <video ref="video" src="" class="video" autoPlay playsInline muted poster="" controls="false"></video>
   </div>
   <PredictionTable id="prediction-table" v-bind:objects="objects" v-on:delete="deleteObject" v-on:save-objects="saveObjects" />
   <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
