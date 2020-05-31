@@ -10,7 +10,7 @@ export default {
   },
   props: {
     language: String,
-    countryCode: String,
+    //countryCode: String,
     languages: Array
   }
 }

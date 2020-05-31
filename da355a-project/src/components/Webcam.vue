@@ -6,7 +6,7 @@
         <md-field id="select">
           <label for="language">Language</label>
           <md-select v-model="translationLanguage" id="language" name="language" v-on:input="setCountryCode">
-            <md-option v-for="(language, idx) in languages" v-bind:key="idx" v-bind:value="language.languageCode">{{language.name}} ({{language.languageCode}})</md-option>
+            <md-option v-for="(language, idx) in populatedLanguages" v-bind:key="idx" v-bind:value="language.languageCode">{{language.name}} ({{language.languageCode}})</md-option>
           </md-select>
        </md-field>
       </div>
@@ -15,13 +15,13 @@
   <div class="md-layout md-alignment-center">
     <div id="choose-action" class="md-layout">
       <div class="md-layout-item ">
-        <md-button class="md-raised md-primary" @click="startRecognition();">Start</md-button>
+        <md-button class="md-raised md-primary" :disabled="!isLanguageChoosen" @click="startRecognition();">Start</md-button>
         <md-button class="md-raised md-accent" @click="stopRecognition();">Stop</md-button>
         <md-switch v-if="!isHidden" :disabled="toggleDisabled" class="md-primary" v-model="rearCamera" id="camera-mode">Rear Camera</md-switch>
       </div>
     </div>
     <md-content id="prediction-box">
-      <span class="md-layout md-display-3 md-alignment-center" id="prediction"><span id="object">{{predictionClass}}</span></span>
+      <span class="md-layout md-display-2 md-alignment-center" id="prediction"><span id="object">{{predictionMessage}}</span></span>
     </md-content>
   </div>
   <div class="md-layout md-alignment-center">
@@ -55,7 +55,7 @@ export default {
       canvasRef: null,
       countryCode: null,
       translationLanguage: null,
-      predictionClass: "Start to begin!",
+      predictionMessage: "Choose a language to begin!",
       predictionScore: "N/A",
       stream: null,
       translation: null,
@@ -71,6 +71,7 @@ export default {
       objects: [],
       live: false,
       isHidden: false,
+      isLanguageChoosen: false,
       selectedValues: {},
     }
   },
@@ -96,7 +97,7 @@ export default {
           this.objects.push(newObject)
         }
         // Set displayed object name to toUpperCase.
-        this.predictionClass = predictions[i].class.toUpperCase();
+        this.predictionMessage = predictions[i].class.toUpperCase();
       }
     },
     /* Detects what the model "sees" and returns the predictions.
@@ -204,12 +205,17 @@ export default {
       this.statusMessage = message;
       this.showSnackbar = boolean;
     },
- 
+
     //Retrieves country code for selected language from languages array, in order to be able to display flags
       setCountryCode(value) {
         console.log(value)
-        let selectedCountry = this.languages.find(o => o.languageCode === value );
-        this.countryCode = selectedCountry.countryCode;
+        let selectedCountry = this.populatedLanguages.find(o => o.languageCode === value );
+        try {
+            this.countryCode = selectedCountry.countryCode;
+        } catch (e) {
+          console.log("Fetching current location");
+        }
+        this.isLanguageChoosen = true;
     },
         // Axios get to API to get translation.
       getTranslation(object, language) {
@@ -227,8 +233,8 @@ export default {
   mounted() {
     //Creates reference to the video tag.
     this.videoRef = this.$refs.video;
-    this.translationLanguage = this.locationLanguage;
-    
+    console.log(this.populatedLanguages);
+
 
     // Toggles option to switching camera based on screen width.
     window.addEventListener('resize', () => {
@@ -241,8 +247,17 @@ export default {
       }
     })
     if (localStorage.getItem('objects')) this.objects = JSON.parse(localStorage.getItem('objects'));
-    if (sessionStorage.getItem('language')) this.translationLanguage = sessionStorage.getItem('language');
+    if (sessionStorage.getItem('language')) {
+      this.translationLanguage = sessionStorage.getItem('language');
+      this.isLanguageChoosen = true;
+      this.predictionMessage = "Start to begin!";
+    }
     if (sessionStorage.getItem('countryCode')) this.countryCode = sessionStorage.getItem('countryCode')
+  },
+  computed: {
+    populatedLanguages: function () {
+      return this.languages;
+    }
   },
   watch: {
     translationLanguage: {

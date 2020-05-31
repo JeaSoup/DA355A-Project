@@ -51,16 +51,16 @@ export default {
               let language = result.data.languages.substring(0, result.data.languages.indexOf(","));
               let languageCode = language.slice(0, language.indexOf("-"));
               let countryCode = result.data.countryCode
-              let newLanguageObject = {name: "current location", countryCode: countryCode, languageCode: languageCode}
-              console.log(newLanguageObject)
-              this.languages.splice(0, 0, newLanguageObject)
+              let currentLanguage = {name: "Current location", countryCode: countryCode, languageCode: languageCode}
+              console.log(currentLanguage)
+              this.languages.splice(0, 0, currentLanguage)
             })
         })
         .catch(err => {
           console.log(err)
         });
     },
-  
+
   },
   mounted() {
     this.identifyLanguage()
