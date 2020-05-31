@@ -15,8 +15,8 @@
     </md-table-toolbar>
 
     <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="multiple" md-auto-select>
-      <md-table-cell md-label="Name" md-sort-by="name"><flag id="flag" iso="gb" />{{ item.name }}</md-table-cell>
-      <md-table-cell md-label="Translation" md-sort-by="translation"><flag id="flag" :iso="item.countryCode" />{{ item.translation }}</md-table-cell>
+      <md-table-cell md-label="Name" md-sort-by="name">{{ item.name }}</md-table-cell>
+      <md-table-cell md-label="Translation" md-sort-by="translation">{{ item.translation }} <flag id="flag" :iso="item.countryCode" /></md-table-cell>
       <md-table-cell md-label="Score" md-sort-by="score">{{ item.score }}</md-table-cell>
     </md-table-row>
   </md-table>
