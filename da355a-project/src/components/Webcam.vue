@@ -228,10 +228,19 @@ export default {
         console.log(response);
         return response.data.responseData.translatedText;
       })
-    }
+    },
+     displaySwitch(windowWidth) {
+       if (windowWidth > 959) {
+         this.isHidden = true;
+       }
+       if (windowWidth < 959) {
+         this.isHidden = false;
+       }
+     }
   },
   mounted() {
     //Creates reference to the video tag.
+    this.displaySwitch(window.innerWidth);
     this.videoRef = this.$refs.video;
     console.log(this.populatedLanguages);
 
@@ -239,12 +248,7 @@ export default {
     // Toggles option to switching camera based on screen width.
     window.addEventListener('resize', () => {
       this.windowWidth = window.innerWidth;
-      if (this.windowWidth > 959) {
-        this.isHidden = true;
-      }
-      if (this.windowWidth < 959) {
-        this.isHidden = false;
-      }
+      this.displaySwitch(this.windowWidth)
     })
     if (localStorage.getItem('objects')) this.objects = JSON.parse(localStorage.getItem('objects'));
     if (sessionStorage.getItem('language')) {
