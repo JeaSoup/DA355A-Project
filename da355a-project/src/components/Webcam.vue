@@ -83,7 +83,7 @@ export default {
           id: uuid(),
           name: predictions[i].class,
           translation: "",
-          score: predictions[i].score.toFixed(2),
+          score: Math.round((predictions[i].score + Number.EPSILON) * 100) / 100,
           language: this.translationLanguage,
           countryCode: this.countryCode
         }
