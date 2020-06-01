@@ -52,7 +52,6 @@ export default {
     return {
       cocoSsd: false,
       videoRef: null,
-      canvasRef: null,
       countryCode: null,
       translationLanguage: null,
       predictionMessage: "Choose a language to begin!",
@@ -72,7 +71,6 @@ export default {
       live: false,
       isHidden: false,
       isLanguageChoosen: false,
-      selectedValues: {},
     }
   },
   methods: {
@@ -138,6 +136,7 @@ export default {
         facing = "user";
       }
 
+      //Check if camera is available and capture stream if so.
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         const webCamPromise = navigator.mediaDevices
           .getUserMedia({
@@ -157,6 +156,9 @@ export default {
             });
           });
 
+        /*Loading predefined object model, sending video stream and model
+          to detectFrame().
+        */
         const modelPromise = cocoSsd.load();
         Promise.all([modelPromise, webCamPromise])
           .then(values => {
@@ -207,7 +209,7 @@ export default {
       this.showSnackbar = boolean;
     },
 
-    //Retrieves country code for selected language from languages array, in order to be able to display flags
+      //Retrieves country code for selected language from languages array, in order to be able to display flags
       setCountryCode(value) {
         let selectedCountry = this.populatedLanguages.find(o => o.languageCode === value );
         try {
@@ -217,7 +219,7 @@ export default {
         }
         this.isLanguageChoosen = true;
     },
-        // Axios get to API to get translation.
+      //Axios.get to API to fetch translation.
       getTranslation(object, language) {
       let langpair = "en|" + language;
       let url = `https://api.mymemory.translated.net/get?q=${encodeURI(object)}&langpair=${langpair}`;
@@ -226,6 +228,7 @@ export default {
         return response.data.responseData.translatedText;
       })
     },
+     //Function to show or hide the toggle swtich for mobile.
      displaySwitch(windowWidth) {
        if (windowWidth > 959) {
          this.isHidden = true;
