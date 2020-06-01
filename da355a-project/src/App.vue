@@ -38,21 +38,15 @@ export default {
   },
   methods: {
     identifyLanguage() {
-      //console.log("Identification started")
       this.$getLocation()
         .then(coordinates => {
           let url = `https://secure.geonames.org/countryCode?lat=${coordinates.lat}&lng=${coordinates.lng}&username=christina3107&type=JSON`
           this.$http.get(url)
             .then((result) => {
-              //console.log(result.data)
-              //this.language = result.data.languages.substring(0, result.data.languages.indexOf(","));
-              //this.countryCode = result.data.countryCode
-              //this.language = this.language.slice(0, this.language.indexOf("-"));
               let language = result.data.languages.substring(0, result.data.languages.indexOf(","));
               let languageCode = language.slice(0, language.indexOf("-"));
               let countryCode = result.data.countryCode
               let currentLanguage = {name: "Current location", countryCode: countryCode, languageCode: languageCode}
-              //console.log(currentLanguage)
               this.languages.splice(0, 0, currentLanguage)
             })
         })
