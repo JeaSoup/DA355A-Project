@@ -16,7 +16,7 @@
 
     <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="multiple" md-auto-select>
       <md-table-cell id="name" md-label="Name" md-sort-by="name">{{ item.name }}</md-table-cell>
-      <md-table-cell id="translation" md-label="translation" md-sort-by="translation">{{ item.translation }} <flag id="flag" :iso="item.countryCode" /></md-table-cell>
+      <md-table-cell id="translation" md-label="Translation" md-sort-by="translation">{{ item.translation }} <flag id="flag" :iso="item.countryCode" /></md-table-cell>
       <md-table-cell md-label="Certainty" md-sort-by="score">{{ item.score * 100 }} %</md-table-cell>
     </md-table-row>
   </md-table>
