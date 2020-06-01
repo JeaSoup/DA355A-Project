@@ -14,4 +14,5 @@ Depicter är en webbapplikation som använder sig av kameran på en enhet för a
 
 
 [1] Techmagic.co, "React vs Angular vs Vue.js - What  to choose in 2020? (updated in 2020)". Mars 2018. [Online]. Tillgänglig: https://medium.com/techmagic/reactjs-vs-angular5-vs-vue-js-what-to-choose-in-2018-b91e028fa91d. Hämtad: 31 maj 2020.
+
 [2] S. Bengtegård, Föreläsning 7, "JavaScript-ramverk", Teknik och samhälle, Malmö universitet, april 2020.
