@@ -9,8 +9,6 @@ export default {
     Webcam,
   },
   props: {
-    language: String,
-    //countryCode: String,
     languages: Array
   }
 }
