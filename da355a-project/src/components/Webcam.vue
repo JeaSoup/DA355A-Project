@@ -91,6 +91,7 @@ export default {
         }
         //Check if element does exist before pushing, AKA a unique object.
         if (!this.objects.find(o => o.name === newObject.name)) {
+          //Fetching the translation.
           this.getTranslation(newObject.name, this.translationLanguage).then(data => {
             newObject.translation = data;
           })
