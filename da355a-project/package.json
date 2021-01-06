@@ -10,7 +10,7 @@
   "dependencies": {
     "@tensorflow-models/coco-ssd": "^2.0.3",
     "@tensorflow/tfjs": "^1.7.4",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "core-js": "^3.6.4",
     "uuid": "^8.1.0",
     "uuidv4": "^6.0.9",
